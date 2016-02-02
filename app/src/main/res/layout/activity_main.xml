@@ -9,8 +9,23 @@
                 tools:context=".MainActivity">
 
     <TextView
-        android:text="@string/hello_world"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="First Event Which Will Never Show Up"
+        android:id="@+id/eventTitle"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Like Event"
+        android:id="@+id/button"
+        android:background="#50E3C2"
+        android:onClick="eventLikeButtonClick"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="67dp"/>
 </RelativeLayout>
