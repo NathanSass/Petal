@@ -1,10 +1,13 @@
 {
-  "activities": [
+  "events": [
     {
       "title": "Fort Point Civil War Day"
     },
     {
       "title": "Awesome City Event For people who like kittens"
+    },
+    {
+      "title": "Intro to japanese language class"
     }
   ]
 }
