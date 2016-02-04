@@ -1,9 +1,8 @@
 package com.nathansass.petal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.EditText;
 
@@ -22,17 +21,6 @@ public class CreateEventActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
-    }
 
     public void createEventButtonClick(View view) {
         JSONObject obj = new JSONObject();
@@ -46,8 +34,13 @@ public class CreateEventActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-//        Route back to the event swipe page
+        routeBackToMainPage();
 
+    }
+
+    public void routeBackToMainPage() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
 }
