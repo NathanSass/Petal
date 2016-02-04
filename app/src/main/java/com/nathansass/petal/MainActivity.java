@@ -1,9 +1,12 @@
 package com.nathansass.petal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
+    EventCard mCurrentEventCard = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,42 +24,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        JSONObject obj        = null;
-        String activityString = null;
+        EventDeck.getInstance(); //Instantiates EventDeck
 
         try {
-            activityString = loadJSONFromAsset();
-            obj = new JSONObject(activityString);
-            JSONArray activitesArr = obj.getJSONArray("activities");
+            String activityString = loadJSONFromAsset("activities");
+            JSONObject obj        = new JSONObject(activityString);
+            JSONArray events_arr  = obj.getJSONArray("events");
 
-            EventDeck eventDeck = new EventDeck();
-            eventDeck.buildEventDeck(activitesArr);
+            EventDeck.buildEventDeck(events_arr);
 
-
+            updateEventCardUI();
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        System.out.println(activityString);
-
-
-
-
-//        {   "activities":[   {        }  ] }
-
-
-
-
-
     }
 
 
-
-
-    public String loadJSONFromAsset() {
+    public String loadJSONFromAsset(String filePath) {
         String json = null;
         try {
-            InputStream is = getAssets().open("activities");
+            InputStream is = getAssets().open(filePath);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -68,10 +57,20 @@ public class MainActivity extends AppCompatActivity {
         return json;
     }
 
+    public void eventLikeButtonClick(View view) {
+        updateEventCardUI();
+    }
+
+    public void updateEventCardUI() {
+        mCurrentEventCard   = EventDeck.getNewEvent();
+        TextView eventTitle = (TextView) findViewById(R.id.eventTitle);
+        eventTitle.setText(mCurrentEventCard.mTitle);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -85,6 +84,13 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == R.id.action_createEvent) {
+
+            Intent intent = new Intent(this, CreateEventActivity.class);
+            startActivity(intent);
             return true;
         }
 
