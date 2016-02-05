@@ -29,6 +29,10 @@ public class EventDeck { //A Singleton
         return mInstance;
     }
 
+    public static List<EventCard> getDeck() {
+        return mEventDeck;
+    }
+
     public static void buildEventDeck(JSONArray events_j) {
 
         try {
@@ -44,6 +48,11 @@ public class EventDeck { //A Singleton
             e.printStackTrace();
         }
     }
+
+//    public static EventCard getCardAtIndex(int index) {
+//        return mEventDeck.get(index);
+//    }
+
 
     public static void addEvent(EventCard eventCard) {
 
