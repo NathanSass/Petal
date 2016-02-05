@@ -17,7 +17,7 @@ public class EventDeck { //A Singleton
 
     private static List<EventCard> mEventDeck = null;
 
-    private EventDeck() {
+    EventDeck() {
         mEventDeck = new ArrayList<EventCard>();
     }
 
@@ -48,10 +48,6 @@ public class EventDeck { //A Singleton
             e.printStackTrace();
         }
     }
-
-//    public static EventCard getCardAtIndex(int index) {
-//        return mEventDeck.get(index);
-//    }
 
 
     public static void addEvent(EventCard eventCard) {

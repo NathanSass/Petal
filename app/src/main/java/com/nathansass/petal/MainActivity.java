@@ -23,8 +23,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        EventDeck.getInstance(); //Instantiates EventDeck
+        /* Instantiate different decks */
+        EventDeck.getInstance();
+        LikedDeck.getInstance();
 
         /* On first instantiation: pulls in data to populate the event cards */
         if ( EventDeck.getDeck().isEmpty() ) {
