@@ -26,17 +26,22 @@ public class MainActivity extends AppCompatActivity {
 
         EventDeck.getInstance(); //Instantiates EventDeck
 
-        try {
-            String activityString = loadJSONFromAsset("activities");
-            JSONObject obj        = new JSONObject(activityString);
-            JSONArray events_arr  = obj.getJSONArray("events");
+        /* On first instantiation: pulls in data to populate the event cards */
+        if ( EventDeck.getDeck().isEmpty() ) {
 
-            EventDeck.buildEventDeck(events_arr);
+            try {
+                String activityString = loadJSONFromAsset("activities");
+                JSONObject obj        = new JSONObject(activityString);
+                JSONArray events_arr  = obj.getJSONArray("events");
 
-            updateEventCardUI();
-        } catch (JSONException e) {
-            e.printStackTrace();
+                EventDeck.buildEventDeck(events_arr);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+
+        updateEventCardUI();
 
     }
 

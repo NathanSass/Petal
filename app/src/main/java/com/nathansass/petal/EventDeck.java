@@ -57,6 +57,7 @@ public class EventDeck { //A Singleton
     public static void addEvent(EventCard eventCard) {
 
         mEventDeck.add(eventCard);
+
     }
 
     public static int getEventCount() {
