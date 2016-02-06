@@ -64,10 +64,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void eventLikeButtonClick(View view) {
-        updateEventCardUI();
+        //Add the current card to the likedDeck, remove it from the oldDeck
+        int before = EventDeck.getEventCount();
+        System.out.println(before);
+        EventDeck.removeEvent(mCurrentEventCard);
+        int after = EventDeck.getEventCount();
+        System.out.println(after);
+
+        /* When this line is active it should decrement the amount available cards to swipe through,
+        * Liked events should reflect this because it currently reflects event deck*/
+        LikedDeck.addEvent(mCurrentEventCard);
+        updateEventCardUI(); //
     }
 
     public void updateEventCardUI() {
+        EventDeck.getInstance();
+        int afterafter = EventDeck.getEventCount();
+        System.out.println(afterafter);
         mCurrentEventCard   = EventDeck.getNewEvent();
         TextView eventTitle = (TextView) findViewById(R.id.eventTitle);
         eventTitle.setText(mCurrentEventCard.mTitle);
