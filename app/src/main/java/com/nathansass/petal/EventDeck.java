@@ -11,7 +11,7 @@ public class EventDeck extends SuperDeck { //A Singleton
         // Exists only to defeat instantiation.
     }
 
-    public static EventDeck getInstance() {
+    public static EventDeck get() {
         if(instance == null) {
             instance = new EventDeck();
         }

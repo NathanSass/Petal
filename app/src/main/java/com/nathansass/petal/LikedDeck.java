@@ -10,7 +10,7 @@ public class LikedDeck extends SuperDeck {
         // Exists only to defeat instantiation.
     }
 
-    public static LikedDeck getInstance() {
+    public static LikedDeck get() {
         if(instance == null) {
             instance = new LikedDeck();
         }

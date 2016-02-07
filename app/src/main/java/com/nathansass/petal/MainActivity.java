@@ -24,18 +24,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         /* Instantiate different decks */
-        EventDeck.getInstance();
-        LikedDeck.getInstance();
+        EventDeck.get();
+        LikedDeck.get();
 
         /* On first instantiation: pulls in data to populate the event cards */
-        if ( EventDeck.getDeck().isEmpty() ) {
+        if ( EventDeck.get().getDeck().isEmpty() ) {
 
             try {
                 String activityString = loadJSONFromAsset("activities");
                 JSONObject obj        = new JSONObject(activityString);
                 JSONArray events_arr  = obj.getJSONArray("events");
 
-                EventDeck.buildEventDeck(events_arr);
+                EventDeck.get().buildEventDeck(events_arr);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -64,24 +64,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void eventLikeButtonClick(View view) {
-        //Add the current card to the likedDeck, remove it from the oldDeck
-        int before = EventDeck.getEventCount();
-        System.out.println(before);
-        EventDeck.removeEvent(mCurrentEventCard);
-        int after = EventDeck.getEventCount();
-        System.out.println(after);
+        //Add the current card to the likedDeck, remove it from the EventDeck
+        EventDeck.get().removeEvent(mCurrentEventCard);
 
-        /* When this line is active it should decrement the amount available cards to swipe through,
-        * Liked events should reflect this because it currently reflects event deck*/
-        LikedDeck.addEvent(mCurrentEventCard);
+        LikedDeck.get().addEvent(mCurrentEventCard);
         updateEventCardUI(); //
     }
 
     public void updateEventCardUI() {
-        EventDeck.getInstance();
-        int afterafter = EventDeck.getEventCount();
-        System.out.println(afterafter);
-        mCurrentEventCard   = EventDeck.getNewEvent();
+        mCurrentEventCard   = EventDeck.get().getNewEvent();
         TextView eventTitle = (TextView) findViewById(R.id.eventTitle);
         eventTitle.setText(mCurrentEventCard.mTitle);
     }

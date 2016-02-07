@@ -19,25 +19,17 @@ public class SuperDeck {
 //    These functions probably do not need to be static
 //    Change this to not be singleton, then have singleton things that instantiate it.
 
-    private static List<EventCard> mAllDeck = null;
+    private List<EventCard> mAllDeck = null;
 
     SuperDeck() {
         mAllDeck = new ArrayList<>();
     }
 
-//    public static SuperDeck getInstance() {
-//        if ( mInstance == null) {
-//            mInstance = new SuperDeck();
-//        }
-//
-//        return mInstance;
-//    }
-
-    public static List<EventCard> getDeck() {
+    public List<EventCard> getDeck() {
         return mAllDeck;
     }
 
-    public static void buildEventDeck(JSONArray events_j) {
+    public void buildEventDeck(JSONArray events_j) {
 
         try {
 
@@ -54,21 +46,21 @@ public class SuperDeck {
     }
 
 
-    public static void addEvent(EventCard eventCard) {
+    public void addEvent(EventCard eventCard) {
 
         mAllDeck.add(eventCard);
 
     }
 
-    public static void removeEvent(EventCard eventCard) {
+    public void removeEvent(EventCard eventCard) {
         mAllDeck.remove(eventCard);
     }
 
-    public static int getEventCount() {
+    public int getEventCount() {
         return mAllDeck.size();
     }
 
-    public static EventCard getNewEvent() {
+    public EventCard getNewEvent() {
         int idx = new Random().nextInt(getEventCount());
         return mAllDeck.get(idx);
     }

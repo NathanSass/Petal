@@ -16,15 +16,16 @@ import android.widget.TextView;
 public class LikedEventsListActivity extends AppCompatActivity {
     ListView myList = null;
 
+    LikedEventsAdapter mAdapter = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.liked_events);
 
-        myList = (ListView) findViewById(R.id.likedEvents_listView);
-
-        myList.setAdapter(new LikedEventsAdapter(this));
-
+        myList   = (ListView) findViewById(R.id.likedEvents_listView);
+        mAdapter = new LikedEventsAdapter(this);
+        myList.setAdapter(mAdapter);
     }
 }
 
@@ -38,12 +39,12 @@ class LikedEventsAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return EventDeck.getEventCount();
+        return LikedDeck.get().getEventCount();
     }
 
     @Override
     public Object getItem(int position) {
-        return EventDeck.getDeck().get(position);
+        return LikedDeck.get().getDeck().get(position);
     }
 
     @Override

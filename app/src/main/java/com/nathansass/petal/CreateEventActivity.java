@@ -28,7 +28,7 @@ public class CreateEventActivity extends AppCompatActivity {
             String title = ((EditText) findViewById(R.id.eventName)).getText().toString();
             obj.put("title", title);
 
-            EventDeck.addEvent(new EventCard(obj));
+            EventDeck.get().addEvent(new EventCard(obj));
 
         } catch (JSONException e) {
             e.printStackTrace();
