@@ -53,6 +53,7 @@ public class SuperDeck {
     }
 
     public void removeEvent(EventCard eventCard) {
+
         mAllDeck.remove(eventCard);
     }
 

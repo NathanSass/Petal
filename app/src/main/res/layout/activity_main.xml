@@ -22,10 +22,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Like Event"
-        android:id="@+id/button"
+        android:id="@+id/likeEvent"
         android:background="#50E3C2"
         android:onClick="eventLikeButtonClick"
+        android:layout_marginBottom="54dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="67dp"/>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Skip Event"
+        android:id="@+id/discardEvent"
+        android:background="#FFF"
+        android:onClick="eventSkipButtonClick"
+        android:textColor="#FF217B"
+        android:layout_alignTop="@+id/likeEvent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
 </RelativeLayout>

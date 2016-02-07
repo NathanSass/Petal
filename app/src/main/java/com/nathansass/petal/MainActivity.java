@@ -64,17 +64,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void eventLikeButtonClick(View view) {
-        //Add the current card to the likedDeck, remove it from the EventDeck
-        EventDeck.get().removeEvent(mCurrentEventCard);
 
-        LikedDeck.get().addEvent(mCurrentEventCard);
-        updateEventCardUI(); //
+        if ( !EventDeck.get().getDeck().isEmpty() ){
+
+            EventDeck.get().removeEvent(mCurrentEventCard);
+
+            LikedDeck.get().addEvent(mCurrentEventCard);
+        }
+
+        updateEventCardUI();
+    }
+
+    public void eventSkipButtonClick(View view) {
+        // todo: delete event when skip is clicked
+
+        updateEventCardUI();
     }
 
     public void updateEventCardUI() {
-        mCurrentEventCard   = EventDeck.get().getNewEvent();
         TextView eventTitle = (TextView) findViewById(R.id.eventTitle);
-        eventTitle.setText(mCurrentEventCard.mTitle);
+
+        if ( !EventDeck.get().getDeck().isEmpty() ) {
+            mCurrentEventCard   = EventDeck.get().getNewEvent();
+            eventTitle.setText(mCurrentEventCard.mTitle);
+        } else {
+            eventTitle.setText("No More Events :`(");
+        }
+
     }
 
     @Override
