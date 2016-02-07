@@ -39,16 +39,19 @@ class LikedEventsAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
+
         return LikedDeck.get().getEventCount();
     }
 
     @Override
     public Object getItem(int position) {
+
         return LikedDeck.get().getDeck().get(position);
     }
 
     @Override
     public long getItemId(int position) {
+
         return position;
     }
 

@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             mCurrentEventCard   = EventDeck.get().getNewEvent();
             eventTitle.setText(mCurrentEventCard.mTitle);
         } else {
-            eventTitle.setText("No More Events :`(");
+            eventTitle.setText(R.string.deck_empty_message);
         }
 
     }

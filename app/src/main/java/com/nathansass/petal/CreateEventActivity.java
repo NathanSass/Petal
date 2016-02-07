@@ -21,7 +21,6 @@ public class CreateEventActivity extends AppCompatActivity {
 
     }
 
-
     public void createEventButtonClick(View view) {
         JSONObject obj = new JSONObject();
         try {
