@@ -16,14 +16,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".CreateEventActivity">
+        <activity android:name=".CreateEventActivity" >
+        </activity>
+        <activity android:name=".LikedEventsListActivity" >
+        </activity>
+        <activity android:name=".FutureMainForLogin" >
         </activity>
         <activity
-            android:name=".LikedEventsListActivity">
+            android:name=".Login"
+            android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name=".LoginActivity">
+            android:name=".Register"
+            android:label="@string/title_activity_register" >
         </activity>
     </application>
 
