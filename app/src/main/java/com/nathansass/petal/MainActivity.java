@@ -5,15 +5,37 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity {
-    EventCard mCurrentEventCard = null;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    Button bLogout;
+    EditText etName, etAge, etUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        bLogout    = (Button)   findViewById(R.id.bLogout);
+
+        etName     = (EditText) findViewById(R.id.etName);
+        etAge      = (EditText) findViewById(R.id.etAge);
+        etUsername = (EditText) findViewById(R.id.etUsername);
+
+        bLogout.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.bLogout:
+                startActivity(new Intent(this, Login.class));
+                break;
+        }
     }
 
 
@@ -59,4 +81,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
