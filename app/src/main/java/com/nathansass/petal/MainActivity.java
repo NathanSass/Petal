@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button bLogout;
     EditText etName, etAge, etUsername;
+    UserLocalStore userLocalStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,17 +28,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         bLogout.setOnClickListener(this);
 
+        userLocalStore = new UserLocalStore(this);
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bLogout:
+                userLocalStore.clearUserData();
+                userLocalStore.setUserLoggedIn(false);
+
                 startActivity(new Intent(this, Login.class));
                 break;
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (authenticate() == true) {
+
+        }
+    }
+
+    private void displayUserDetails() {
+        User user = userLocalStore.getLoggedInUser();
+
+        etUsername.setText(user.username);
+        etName.setText(user.name);
+        etAge.setText(user.age + "");
+    }
+
+    private boolean authenticate() {
+        return userLocalStore.getUserLoggedIn();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
