@@ -1,5 +1,6 @@
 package com.nathansass.petal;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -35,10 +36,22 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 String password = etPassword.getText().toString();
                 int age         = Integer.parseInt(etAge.getText().toString());
 
-                User registeredData = new User(name, age, username, password);
+                User user = new User(name, age, username, password);
+
+                registerUser(user);
                 break;
         }
 
+    }
+
+    private void registerUser(User user) {
+        ServerRequests serverRequests = new ServerRequests(this);
+        serverRequests.storeUserDataInBackground(user, new GetUserCallback() {
+            @Override
+            public void done(User returnedUser) {
+                startActivity(new Intent(Register.this, Login.class));
+            }
+        });
     }
 
     @Override

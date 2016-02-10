@@ -1,5 +1,6 @@
 package com.nathansass.petal;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -63,9 +64,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         switch (v.getId()){
             case R.id.bLogin:
 
-                User user = new User(null, null);
-                userLocalStore.storeUserData(user);
-                userLocalStore.setUserLoggedIn(true);
+                String username = etUsername.getText().toString();
+                String password = etPassword.getText().toString();
+
+                User user = new User(username, password);
+
+                authenticate(user);
 
                 break;
             case R.id.tvRegisterLink:
@@ -74,5 +78,35 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 break;
         }
+    }
+
+    private void authenticate(User user) {
+        ServerRequests serverRequests = new ServerRequests(this);
+        serverRequests.fetchUserDataInBackground(user, new GetUserCallback() {
+            @Override
+            public void done(User returnedUser) {
+                if (returnedUser == null) {
+                    showErrorMessage();
+                } else {
+                    logUserIn(returnedUser);
+                }
+            }
+        });
+
+    }
+
+    private void logUserIn(User returnedUser){
+        userLocalStore.storeUserData(returnedUser);
+        userLocalStore.setUserLoggedIn(true);
+
+        /* Will change to another activity */
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
+    private void showErrorMessage() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+        builder.setMessage("Incorrect User Details");
+        builder.setPositiveButton("Ok", null);
+        builder.show();
     }
 }
