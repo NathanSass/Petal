@@ -45,6 +45,8 @@ public class ServerRequests {
         new FetchUserDataAsyncTask(user, callback).execute();
     }
 
+
+    /* Store User Data */
     public class StoreUserDataAsyncTask extends AsyncTask<Void, Void, Void> {
         User user;
         GetUserCallback userCallback;
@@ -53,14 +55,6 @@ public class ServerRequests {
             this.user = user;
             this.userCallback = userCallback;
 
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-            progressDialog.dismiss();
-            userCallback.done(null);
         }
 
         @Override
@@ -95,8 +89,16 @@ public class ServerRequests {
 
         }
 
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            progressDialog.dismiss();
+            userCallback.done(null);
+        }
+
     }
 
+    /* Fetch User Data */
     public class FetchUserDataAsyncTask extends AsyncTask<Void, Void, User> {
         User user;
         GetUserCallback userCallback;
@@ -138,6 +140,7 @@ public class ServerRequests {
                 InputStream in = new BufferedInputStream(conn.getInputStream());
 
                 String response = IOUtils.toString(in, "UTF-8");
+                System.out.println(response);
                 JSONObject jResponse = new JSONObject(response);
 
                 if (jResponse.length() == 0) {
@@ -166,6 +169,69 @@ public class ServerRequests {
 
             return null;
         }
+
+
+//        public String performPostCall(String requestURL,
+//                                       HashMap<String, String> postDataParams) {
+//
+//            URL url;
+//            String response = "";
+//            try {
+//                url = new URL(requestURL);
+//
+//                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//                conn.setReadTimeout(15000);
+//                conn.setConnectTimeout(15000);
+//                conn.setRequestMethod("POST");
+//                conn.setDoInput(true);
+//                conn.setDoOutput(true);
+//
+//
+//                OutputStream os = conn.getOutputStream();
+//                BufferedWriter writer = new BufferedWriter(
+//                        new OutputStreamWriter(os, "UTF-8"));
+//                writer.write(getPostDataString(postDataParams));
+//
+//                writer.flush();
+//                writer.close();
+//                os.close();
+//                int responseCode=conn.getResponseCode();
+//
+//                if (responseCode == HttpsURLConnection.HTTP_OK) {
+//                    String line;
+//                    BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//                    while ((line=br.readLine()) != null) {
+//                        response+=line;
+//                    }
+//                }
+//                else {
+//                    response="";
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            return response;
+//        }
+//
+//        private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
+//            StringBuilder result = new StringBuilder();
+//            boolean first = true;
+//            for(Map.Entry<String, String> entry : params.entrySet()){
+//                if (first)
+//                    first = false;
+//                else
+//                    result.append("&");
+//
+//                result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+//                result.append("=");
+//                result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+//            }
+//
+//            return result.toString();
+//        }
+
+
 
     }
 

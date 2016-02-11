@@ -1,13 +1,14 @@
 package com.nathansass.petal;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,6 +28,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         etPassword = (EditText) findViewById(R.id.etPassword);
     }
 
+//    BUGBUG not being called
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -41,7 +43,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 registerUser(user);
                 break;
         }
-
     }
 
     private void registerUser(User user) {
