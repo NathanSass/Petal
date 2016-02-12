@@ -16,7 +16,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -79,8 +78,13 @@ public class ServerRequests {
 
                 conn.connect();
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+//For debugging
+                InputStream in = new BufferedInputStream(conn.getInputStream());
+
+                String response = IOUtils.toString(in, "UTF-8");
+                System.out.println(response);
+//
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -155,13 +159,7 @@ public class ServerRequests {
 
                 return returnedUser;
 
-
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
 

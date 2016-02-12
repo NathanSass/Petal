@@ -26,9 +26,10 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         etAge      = (EditText) findViewById(R.id.etAge);
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
+
+        bRegister.setOnClickListener(this);
     }
 
-//    BUGBUG not being called
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
