@@ -3,6 +3,7 @@ package com.nathansass.petal;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,14 @@ public class LikedEventsListActivity extends AppCompatActivity {
 
     LikedEventsAdapter mAdapter = null;
 
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.liked_events);
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
 
         myList   = (ListView) findViewById(R.id.likedEvents_listView);
         mAdapter = new LikedEventsAdapter(this);

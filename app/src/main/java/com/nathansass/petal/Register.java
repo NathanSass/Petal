@@ -3,6 +3,7 @@ package com.nathansass.petal;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,11 +15,14 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     Button bRegister;
     EditText etName, etAge, etUsername, etPassword;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
 
         bRegister  = (Button)   findViewById(R.id.bRegister);
 
