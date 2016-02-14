@@ -1,4 +1,4 @@
-package com.nathansass.petal;
+package com.nathansass.petal.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
+
+import com.nathansass.petal.models.EventCard;
+import com.nathansass.petal.models.EventDeck;
+import com.nathansass.petal.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;

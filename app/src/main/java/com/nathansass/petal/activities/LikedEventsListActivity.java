@@ -1,4 +1,4 @@
-package com.nathansass.petal;
+package com.nathansass.petal.activities;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.nathansass.petal.models.EventCard;
+import com.nathansass.petal.models.LikedDeck;
+import com.nathansass.petal.R;
 
 /**
  * Created by nathansass on 2/4/16.

@@ -1,4 +1,4 @@
-package com.nathansass.petal;
+package com.nathansass.petal.activities;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -12,8 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.nathansass.petal.interfaces.GetUserCallback;
+import com.nathansass.petal.R;
+import com.nathansass.petal.data.ServerRequests;
+import com.nathansass.petal.models.User;
+import com.nathansass.petal.data.UserLocalStore;
+
 // Possible should extended ActionBarActivity instead
-public class Login extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText etUsername, etPassword;
     TextView tvRegisterLink;
@@ -80,7 +86,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 break;
             case R.id.tvRegisterLink:
 
-                startActivity(new Intent(this, Register.class));
+                startActivity(new Intent(this, RegisterActivity.class));
 
                 break;
         }
@@ -110,7 +116,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void showErrorMessage() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
         builder.setMessage("Incorrect User Details");
         builder.setPositiveButton("Ok", null);
         builder.show();

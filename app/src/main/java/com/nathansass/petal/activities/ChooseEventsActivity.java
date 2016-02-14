@@ -1,4 +1,4 @@
-package com.nathansass.petal;
+package com.nathansass.petal.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.nathansass.petal.models.EventCard;
+import com.nathansass.petal.models.EventDeck;
+import com.nathansass.petal.models.LikedDeck;
+import com.nathansass.petal.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,7 +21,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class ChooseEvents extends AppCompatActivity {
+public class ChooseEventsActivity extends AppCompatActivity {
 
     EventCard mCurrentEventCard = null;
     private Toolbar toolbar;
@@ -52,7 +57,7 @@ public class ChooseEvents extends AppCompatActivity {
     }
 
     public String loadJSONFromAsset(String filePath) {
-        String json = null;
+        String json;
         try {
             InputStream is = getAssets().open(filePath);
             int size = is.available();
@@ -131,7 +136,7 @@ public class ChooseEvents extends AppCompatActivity {
         }
 
         if (id == R.id.action_chooseEvents) {
-            Intent intent = new Intent(this, ChooseEvents.class);
+            Intent intent = new Intent(this, ChooseEventsActivity.class);
             startActivity(intent);
             return true;
         }

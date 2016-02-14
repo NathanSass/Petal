@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,20 +18,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateEventActivity" >
+        <activity android:name=".activities.CreateEventActivity" >
         </activity>
-        <activity android:name=".LikedEventsListActivity" >
+        <activity android:name=".activities.LikedEventsListActivity" >
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name=".Register"
+            android:name=".activities.RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
         <activity
-            android:name=".ChooseEvents"
+            android:name=".activities.ChooseEventsActivity"
             android:label="@string/title_activity_choose_events" >
         </activity>
     </application>

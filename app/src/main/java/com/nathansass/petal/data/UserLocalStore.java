@@ -1,7 +1,9 @@
-package com.nathansass.petal;
+package com.nathansass.petal.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.nathansass.petal.models.User;
 
 /**
  * Created by nathansass on 2/9/16.

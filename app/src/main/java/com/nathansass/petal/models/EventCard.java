@@ -1,4 +1,4 @@
-package com.nathansass.petal;
+package com.nathansass.petal.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,8 +7,8 @@ import org.json.JSONObject;
  * Created by nathansass on 2/1/16.
  */
 public class EventCard {
-    protected String mTitle;
-    protected String mAddress;
+    public String mTitle;
+    public String mAddress;
 
     public EventCard(JSONObject event_obj) {
         try {

@@ -1,4 +1,4 @@
-package com.nathansass.petal;
+package com.nathansass.petal.models;
 
 import org.json.JSONArray;
 import org.json.JSONException;

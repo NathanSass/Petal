@@ -1,9 +1,12 @@
-package com.nathansass.petal;
+package com.nathansass.petal.data;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
+
+import com.nathansass.petal.models.User;
+import com.nathansass.petal.interfaces.GetUserCallback;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package com.nathansass.petal;
+package com.nathansass.petal.models;
 
 /**
  * Created by nathansass on 2/5/16.

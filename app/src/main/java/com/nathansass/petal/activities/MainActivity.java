@@ -1,4 +1,4 @@
-package com.nathansass.petal;
+package com.nathansass.petal.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.nathansass.petal.R;
+import com.nathansass.petal.models.User;
+import com.nathansass.petal.data.UserLocalStore;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -45,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 userLocalStore.clearUserData();
                 userLocalStore.setUserLoggedIn(false);
 
-                startActivity(new Intent(this, Login.class));
+                startActivity(new Intent(this, LoginActivity.class));
                 break;
         }
     }
@@ -54,10 +58,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
 
-        if (authenticate() == true) {
+        if (authenticate()) {
             displayUserDetails();
         } else {
-            startActivity(new Intent(MainActivity.this, Login.class));
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
     }
 
@@ -95,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (id == R.id.action_chooseEvents) {
-            Intent intent = new Intent(this, ChooseEvents.class);
+            Intent intent = new Intent(this, ChooseEventsActivity.class);
             startActivity(intent);
             return true;
         }

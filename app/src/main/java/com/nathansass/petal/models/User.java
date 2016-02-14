@@ -1,11 +1,11 @@
-package com.nathansass.petal;
+package com.nathansass.petal.models;
 
 /**
  * Created by nathansass on 2/9/16.
  */
 public class User {
-    String name, username, password;
-    int age;
+    public String name, username, password;
+    public int age;
 
     public User (String name, int age, String username, String password) {
         this.name     = name;

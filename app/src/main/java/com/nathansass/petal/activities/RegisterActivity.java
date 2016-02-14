@@ -1,4 +1,4 @@
-package com.nathansass.petal;
+package com.nathansass.petal.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,8 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.nathansass.petal.interfaces.GetUserCallback;
+import com.nathansass.petal.R;
+import com.nathansass.petal.data.ServerRequests;
+import com.nathansass.petal.models.User;
 
-public class Register extends AppCompatActivity implements View.OnClickListener {
+
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button bRegister;
     EditText etName, etAge, etUsername, etPassword;
@@ -55,7 +60,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         serverRequests.storeUserDataInBackground(user, new GetUserCallback() {
             @Override
             public void done(User returnedUser) {
-                startActivity(new Intent(Register.this, Login.class));
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
         });
     }
