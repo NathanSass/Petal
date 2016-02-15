@@ -16,7 +16,7 @@ import com.nathansass.petal.data.ServerRequests;
 import com.nathansass.petal.models.User;
 
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener { // Still need to add click listener when using view.Onclicklistener
 
     Button bRegister;
     EditText etName, etAge, etUsername, etPassword;
@@ -26,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
