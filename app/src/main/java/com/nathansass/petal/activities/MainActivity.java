@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStart();
 
         if (authenticate()) {
+//            startActivity(new Intent(MainActivity.this, ChooseEventsActivity.class));
             displayUserDetails();
         } else {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));

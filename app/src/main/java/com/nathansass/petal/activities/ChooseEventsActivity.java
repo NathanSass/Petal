@@ -1,18 +1,20 @@
 package com.nathansass.petal.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.nathansass.petal.R;
+import com.nathansass.petal.data.UserLocalStore;
 import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.EventDeck;
 import com.nathansass.petal.models.LikedDeck;
-import com.nathansass.petal.R;
+import com.nathansass.petal.models.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,8 +25,13 @@ import java.io.InputStream;
 
 public class ChooseEventsActivity extends AppCompatActivity {
 
+    public static final String TAG = ChooseEventsActivity.class.getSimpleName();
+
     EventCard mCurrentEventCard = null;
     private Toolbar toolbar;
+
+    UserLocalStore mUserLocalStore;
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,54 +45,22 @@ public class ChooseEventsActivity extends AppCompatActivity {
         EventDeck.get();
         LikedDeck.get();
 
+        /* Get user data for the logged in user */
+        mUserLocalStore = new UserLocalStore(this);
+        currentUser     = mUserLocalStore.getLoggedInUser();
+
         /* On first instantiation: pulls in data to populate the event cards */
+        /* TODO: Get event data from the server */
         if ( EventDeck.get().getDeck().isEmpty() ) {
-
-            try {
-                String activityString = loadJSONFromAsset("activities");
-                JSONObject obj        = new JSONObject(activityString);
-                JSONArray events_arr  = obj.getJSONArray("events");
-
-                EventDeck.get().buildEventDeck(events_arr);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            getDataFromLocalJSONFile();
         }
 
         updateEventCardUI();
-    }
 
-    public String loadJSONFromAsset(String filePath) {
-        String json;
-        try {
-            InputStream is = getAssets().open(filePath);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
-
-    public void eventLikeButtonClick(View view) {
-
-        if ( !EventDeck.get().getDeck().isEmpty() ){
-
-            EventDeck.get().removeEvent(mCurrentEventCard);
-
-            LikedDeck.get().addEvent(mCurrentEventCard);
-        }
-
-        updateEventCardUI();
     }
 
     public void eventSkipButtonClick(View view) {
-        // todo: delete event when skip is clicked
+        // TODO: delete event when skip is clicked
 
         updateEventCardUI();
     }
@@ -100,6 +75,18 @@ public class ChooseEventsActivity extends AppCompatActivity {
             eventTitle.setText(R.string.deck_empty_message);
         }
 
+    }
+
+    public void eventLikeButtonClick(View view) {
+
+        if ( !EventDeck.get().getDeck().isEmpty() ){
+
+            EventDeck.get().removeEvent(mCurrentEventCard);
+
+            LikedDeck.get().addEvent(mCurrentEventCard);
+        }
+
+        updateEventCardUI();
     }
 
     @Override
@@ -143,4 +130,36 @@ public class ChooseEventsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    /* Methods for getting Event Info from local JSON File TODO: Deprecate*/
+    public void getDataFromLocalJSONFile() {
+        try {
+            String activityString = loadJSONFromAsset("activities");
+            JSONObject obj        = new JSONObject(activityString);
+            JSONArray events_arr  = obj.getJSONArray("events");
+
+            EventDeck.get().buildEventDeck(events_arr);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public String loadJSONFromAsset(String filePath) {
+        String json;
+        try {
+            InputStream is = getAssets().open(filePath);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+    /* */
 }
