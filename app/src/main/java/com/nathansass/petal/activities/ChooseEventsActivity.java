@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.nathansass.petal.R;
+import com.nathansass.petal.data.ServerRequests;
 import com.nathansass.petal.data.UserLocalStore;
+import com.nathansass.petal.interfaces.GetEventsCallback;
 import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.EventDeck;
 import com.nathansass.petal.models.LikedDeck;
@@ -52,11 +54,23 @@ public class ChooseEventsActivity extends AppCompatActivity {
         /* On first instantiation: pulls in data to populate the event cards */
         /* TODO: Get event data from the server */
         if ( EventDeck.get().getDeck().isEmpty() ) {
-            getDataFromLocalJSONFile();
+//            getDataFromLocalJSONFile();
+            getDataFromServer();
         }
 
         updateEventCardUI();
 
+    }
+
+    public void getDataFromServer() {
+        ServerRequests serverRequests = new ServerRequests(this);
+        serverRequests.fetchEventDataInBackground(new GetEventsCallback() {
+            @Override
+            public void done(EventDeck returnedEventDeck) {
+                // I don't think anything will have to be done here, maybe refactoring
+                // Event deck is instantiated a singleton, so it will allready exist
+            }
+        });
     }
 
     public void eventSkipButtonClick(View view) {

@@ -5,17 +5,20 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 
-import com.nathansass.petal.models.User;
+import com.nathansass.petal.interfaces.GetEventsCallback;
 import com.nathansass.petal.interfaces.GetUserCallback;
+import com.nathansass.petal.models.User;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -47,6 +50,50 @@ public class ServerRequests {
         new FetchUserDataAsyncTask(user, callback).execute();
     }
 
+    public void fetchEventDataInBackground(GetEventsCallback callback) {
+        progressDialog.show();
+        new FetchEventDataAsyncTask(callback).execute();
+    }
+
+    /* Fetch Event Card Data */
+    public class FetchEventDataAsyncTask extends AsyncTask<Void, Void, Void> {
+        GetEventsCallback userCallback;
+
+        public FetchEventDataAsyncTask(GetEventsCallback userCallback) {
+            this.userCallback = userCallback;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                URL url = new URL(SERVER_ADDRESS + "FetchEventData.php");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                InputStream in = new BufferedInputStream(conn.getInputStream());
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+                System.out.println("Reeeeeeeeee");
+                System.out.println(reader);
+
+                String response = IOUtils.toString(in, "UTF-8");
+                System.out.println(response);
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            progressDialog.dismiss();
+            userCallback.done(null);
+        }
+    }
 
     /* Store User Data */
     public class StoreUserDataAsyncTask extends AsyncTask<Void, Void, Void> {
@@ -56,7 +103,6 @@ public class ServerRequests {
         public StoreUserDataAsyncTask(User user, GetUserCallback userCallback) {
             this.user = user;
             this.userCallback = userCallback;
-
         }
 
         @Override
