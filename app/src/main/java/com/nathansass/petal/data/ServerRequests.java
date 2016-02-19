@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 
 import com.nathansass.petal.interfaces.GetEventsCallback;
 import com.nathansass.petal.interfaces.GetUserCallback;
+import com.nathansass.petal.interfaces.PostEventCallback;
+import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.EventDeck;
 import com.nathansass.petal.models.User;
 
@@ -22,6 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -54,6 +57,62 @@ public class ServerRequests {
         progressDialog.show();
         new FetchEventDataAsyncTask(callback).execute();
     }
+    /* Store Event Card Data */
+    public void storeEventDataInBackground(EventCard eventCard, PostEventCallback eventCallback) {
+        new StoreEventDataAsyncTask(eventCard, eventCallback).execute();
+
+    }
+
+
+    public class StoreEventDataAsyncTask extends AsyncTask<Void, Void, EventCard> {
+        PostEventCallback eventCallback;
+        EventCard eventCard;
+
+        public StoreEventDataAsyncTask(EventCard eventCard, PostEventCallback eventCallback) {
+            this.eventCard     = eventCard;
+            this.eventCallback = eventCallback;
+        }
+
+        @Override
+        protected EventCard doInBackground(Void... params) {
+            try {
+                URL url = new URL(SERVER_ADDRESS + "PostEventData.php");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+
+                Uri.Builder builder = new Uri.Builder().appendQueryParameter("title", eventCard.mTitle)
+                                                        .appendQueryParameter("street", eventCard.street);
+                String query = builder.build().getEncodedQuery();
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
+                writer.write(query);
+                writer.close();
+                os.close();
+
+                conn.connect();
+
+                InputStream in = new BufferedInputStream(conn.getInputStream());
+                String response = IOUtils.toString(in, "UTF-8");
+
+
+                // TODO: add the id and return a new event instance with event ID;
+                return eventCard;
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(EventCard returnedEvent) {
+            super.onPostExecute(returnedEvent);
+            eventCallback.done(returnedEvent);
+        }
+    }
 
     /* Fetch Event Card Data */
     public class FetchEventDataAsyncTask extends AsyncTask<Void, Void, Void> {
@@ -65,6 +124,7 @@ public class ServerRequests {
 
         @Override
         protected Void doInBackground(Void... params) {
+
             try {
                 URL url = new URL(SERVER_ADDRESS + "FetchEventData.php");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -158,14 +218,6 @@ public class ServerRequests {
         }
 
         @Override
-        protected void onPostExecute(User returnedUser) {
-            super.onPostExecute(returnedUser);
-
-            progressDialog.dismiss();
-            userCallback.done(returnedUser);
-        }
-
-        @Override
         protected User doInBackground(Void... params) {
             User returnedUser;
             try {
@@ -210,6 +262,14 @@ public class ServerRequests {
 
 
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(User returnedUser) {
+            super.onPostExecute(returnedUser);
+
+            progressDialog.dismiss();
+            userCallback.done(returnedUser);
         }
 
     }

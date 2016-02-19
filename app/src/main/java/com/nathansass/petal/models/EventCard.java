@@ -8,12 +8,12 @@ import org.json.JSONObject;
  */
 public class EventCard {
     public String mTitle;
-    public String mAddress;
+    public String street;
 
     public EventCard(JSONObject event_obj) {
         try {
             mTitle = event_obj.getString("title");
-            mAddress = "123 Farm St.";
+            street = "123 Farm St.";
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -7,9 +7,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 
-import com.nathansass.petal.models.EventCard;
-import com.nathansass.petal.models.EventDeck;
 import com.nathansass.petal.R;
+import com.nathansass.petal.data.ServerRequests;
+import com.nathansass.petal.interfaces.PostEventCallback;
+import com.nathansass.petal.models.EventCard;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,7 +38,8 @@ public class CreateEventActivity extends AppCompatActivity {
             String title = ((EditText) findViewById(R.id.eventName)).getText().toString();
             obj.put("title", title);
 
-            EventDeck.get().addEvent(new EventCard(obj));
+            saveEvent(new EventCard(obj));
+//            EventDeck.get().addEvent(new EventCard(obj));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -45,6 +47,19 @@ public class CreateEventActivity extends AppCompatActivity {
 
         routeBackToMainPage();
 
+    }
+
+    /* Saves event to the DB */
+    public void saveEvent(EventCard newEvent) {
+        ServerRequests serverRequests = new ServerRequests(this);
+        serverRequests.storeEventDataInBackground(newEvent, new PostEventCallback() {
+            @Override
+            public void done(EventCard returnedEventCard) {
+                // I don't think anything needs to be done here
+                // The new event will just get sent to the DB
+                // And it will be available for subsequent users.
+            }
+        });
     }
 
     public void routeBackToMainPage() {

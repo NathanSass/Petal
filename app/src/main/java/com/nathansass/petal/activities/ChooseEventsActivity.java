@@ -67,9 +67,9 @@ public class ChooseEventsActivity extends AppCompatActivity {
         serverRequests.fetchEventDataInBackground(new GetEventsCallback() {
             @Override
             public void done(EventDeck returnedEventDeck) {
+
                 updateEventCardUI();
-                // I don't think anything will have to be done here, maybe refactoring
-                // Event deck is instantiated a singleton, so it will allready exist
+
             }
         });
     }
