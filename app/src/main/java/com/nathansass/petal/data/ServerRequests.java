@@ -7,18 +7,18 @@ import android.os.AsyncTask;
 
 import com.nathansass.petal.interfaces.GetEventsCallback;
 import com.nathansass.petal.interfaces.GetUserCallback;
+import com.nathansass.petal.models.EventDeck;
 import com.nathansass.petal.models.User;
 
 import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -71,16 +71,12 @@ public class ServerRequests {
 
                 InputStream in = new BufferedInputStream(conn.getInputStream());
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-                System.out.println("Reeeeeeeeee");
-                System.out.println(reader);
-
                 String response = IOUtils.toString(in, "UTF-8");
-                System.out.println(response);
+                JSONArray jResponse = new JSONArray(response);
 
+                EventDeck.get().buildEventDeck(jResponse);
 
-            } catch (IOException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
 
