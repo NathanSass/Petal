@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.nathansass.petal.interfaces.GetEventsCallback;
 import com.nathansass.petal.interfaces.GetUserCallback;
@@ -65,35 +64,48 @@ public class ServerRequests {
         new StoreEventDataAsyncTask(eventCard, eventCallback).execute();
     }
 
-    public void storeUsersEventsDataInBackground(User currentUser, EventCard eventCard, PostUsersEventsCallback callback){
-        new StoreUsersEventsDataAsyncTask(currentUser, eventCard, callback).execute();
+    public void storeUsersEventsDataInBackground(User currentUser, EventCard eventCard, Boolean created, Boolean attending, PostUsersEventsCallback callback){
+        new StoreUsersEventsDataAsyncTask(currentUser, eventCard, created, attending, callback).execute();
     }
 
     /* Store UsersEvents Relationship Data*/
-    public class StoreUsersEventsDataAsyncTask extends AsyncTask<Void, Void, User> {
+    public class StoreUsersEventsDataAsyncTask extends AsyncTask<Void, Void, Integer> {
 
         User currentUser;
         EventCard eventCard;
         PostUsersEventsCallback callback;
+        int created, attending;
 
-        public StoreUsersEventsDataAsyncTask(User currentUser, EventCard eventCard, PostUsersEventsCallback callback) {
+        public StoreUsersEventsDataAsyncTask(User currentUser, EventCard eventCard, Boolean created, Boolean attending, PostUsersEventsCallback callback) {
             this.currentUser = currentUser;
             this.eventCard   = eventCard;
             this.callback    = callback;
+            this.created     = 0;
+            this.attending   = 0;
+
+            if (created) {
+                this.created = 1;
+            }
+
+            if (attending) {
+                this.attending = 1;
+            }
         }
 
         @Override
-        protected User doInBackground(Void... params) {
+        protected Integer doInBackground(Void... params) {
+
             try {
                 URL url = new URL(SERVER_ADDRESS + "PostUsersEventsData.php");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
 
+
                 Uri.Builder builder = new Uri.Builder().appendQueryParameter("user_id", currentUser.id + "")
                                                         .appendQueryParameter("event_id", eventCard.id + "")
-                                                        .appendQueryParameter("created", 1 + "")
-                                                        .appendQueryParameter("attending", 1 + "");
+                                                        .appendQueryParameter("created", created + "")
+                                                        .appendQueryParameter("attending", attending + "");
 
                 String query = builder.build().getEncodedQuery();
                 OutputStream os = conn.getOutputStream();
@@ -106,9 +118,8 @@ public class ServerRequests {
 
                 InputStream in  = new BufferedInputStream(conn.getInputStream());
                 String response = IOUtils.toString(in, "UTF-8");
-                Log.d(TAG, "userEventsId: " + response);
-
-                return currentUser;
+                int lastId = Integer.parseInt(response);
+                return lastId;
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -116,15 +127,17 @@ public class ServerRequests {
                 e.printStackTrace();
             }
 
-            return null;
+            return -1;
+
         }
 
         @Override
-        protected void onPostExecute(User currentUser) {
-            super.onPostExecute(currentUser);
-            callback.done(currentUser);
+        protected void onPostExecute(Integer returnedRecordId) {
+            super.onPostExecute(returnedRecordId);
+            callback.done(returnedRecordId);
         }
     }
+
     /* Store Event Card Data */
     public class StoreEventDataAsyncTask extends AsyncTask<Void, Void, EventCard> {
         PostEventCallback eventCallback;

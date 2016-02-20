@@ -19,6 +19,7 @@ import com.nathansass.petal.R;
  * Created by nathansass on 2/4/16.
  */
 public class LikedEventsListActivity extends AppCompatActivity {
+    public static final String TAG = LikedEventsListActivity.class.getSimpleName();
     ListView myList = null;
 
     LikedEventsAdapter mAdapter = null;

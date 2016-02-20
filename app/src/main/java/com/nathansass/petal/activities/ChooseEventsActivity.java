@@ -1,5 +1,6 @@
 package com.nathansass.petal.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,11 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nathansass.petal.R;
 import com.nathansass.petal.data.ServerRequests;
 import com.nathansass.petal.data.UserLocalStore;
 import com.nathansass.petal.interfaces.GetEventsCallback;
+import com.nathansass.petal.interfaces.PostUsersEventsCallback;
 import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.EventDeck;
 import com.nathansass.petal.models.LikedDeck;
@@ -28,6 +31,8 @@ import java.io.InputStream;
 public class ChooseEventsActivity extends AppCompatActivity {
 
     public static final String TAG = ChooseEventsActivity.class.getSimpleName();
+    Context context;
+    int duration;
 
     EventCard mCurrentEventCard = null;
     private Toolbar toolbar;
@@ -50,6 +55,10 @@ public class ChooseEventsActivity extends AppCompatActivity {
         /* Get user data for the logged in user */
         mUserLocalStore = new UserLocalStore(this);
         currentUser     = mUserLocalStore.getLoggedInUser();
+
+        /* Toast Things*/
+        context  = getApplicationContext();
+        duration = Toast.LENGTH_SHORT;
 
         /* On first instantiation: pulls in data to populate the event cards */
         /* TODO: Get event data from the server */
@@ -99,6 +108,19 @@ public class ChooseEventsActivity extends AppCompatActivity {
             EventDeck.get().removeEvent(mCurrentEventCard);
 
             LikedDeck.get().addEvent(mCurrentEventCard);
+
+            ServerRequests serverRequests = new ServerRequests(this);
+            serverRequests.storeUsersEventsDataInBackground(currentUser, mCurrentEventCard, false, true, new PostUsersEventsCallback() {
+                @Override
+                public void done(int returnedRecordId) {
+                    CharSequence txt;
+                    if (returnedRecordId < 1) {
+                        txt = "Error Liking: " + mCurrentEventCard.mTitle;
+                        Toast toast = Toast.makeText(context, txt, duration);
+                        toast.show();
+                    }
+                }
+            });
         }
 
         updateEventCardUI();
