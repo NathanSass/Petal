@@ -75,14 +75,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void retrieveDataForAppInBackground() {
-        ServerRequests serverRequests = new ServerRequests(this);
-        serverRequests.fetchLikedEventsDataInBackground(currentUser, new GetLikedEventsCallback() {
-            @Override
-            public void done(LikedDeck returnedLikedDeck) {
-                // Nothing to be done here
-                // Maybe update
-            }
-        });
+        if (LikedDeck.get().getDeck().isEmpty()) {
+
+            ServerRequests serverRequests = new ServerRequests(this);
+            serverRequests.fetchLikedEventsDataInBackground(currentUser, new GetLikedEventsCallback() {
+                @Override
+                public void done(LikedDeck returnedLikedDeck) {
+                    // Nothing to be done here
+                    // Maybe update
+                }
+            });
+        }
     }
 
     private void displayUserDetails() {

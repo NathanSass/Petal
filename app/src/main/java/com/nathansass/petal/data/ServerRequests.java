@@ -59,9 +59,9 @@ public class ServerRequests {
         new FetchUserDataAsyncTask(user, callback).execute();
     }
 
-    public void fetchEventDataInBackground(GetEventsCallback callback) {
+    public void fetchEventDataInBackground(User currentUser, GetEventsCallback callback) {
         progressDialog.show();
-        new FetchEventDataAsyncTask(callback).execute();
+        new FetchEventDataAsyncTask(currentUser, callback).execute();
     }
 
     public void storeEventDataInBackground(EventCard eventCard, PostEventCallback eventCallback) {
@@ -261,9 +261,11 @@ public class ServerRequests {
     /* Fetch Event Card Data */
     public class FetchEventDataAsyncTask extends AsyncTask<Void, Void, Void> {
         GetEventsCallback userCallback;
+        User currentUser;
 
-        public FetchEventDataAsyncTask(GetEventsCallback userCallback) {
+        public FetchEventDataAsyncTask(User currentUser, GetEventsCallback userCallback) {
             this.userCallback = userCallback;
+            this.currentUser = currentUser;
         }
 
         @Override
@@ -272,10 +274,23 @@ public class ServerRequests {
             try {
                 URL url = new URL(SERVER_ADDRESS + "FetchEventData.php");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
 
-                InputStream in = new BufferedInputStream(conn.getInputStream());
+                Uri.Builder builder = new Uri.Builder().appendQueryParameter("user_id", currentUser.id + "");
 
+                String query = builder.build().getEncodedQuery();
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
+                writer.write(query);
+                writer.close();
+                os.close();
+
+                conn.connect();
+
+                InputStream in  = new BufferedInputStream(conn.getInputStream());
                 String response = IOUtils.toString(in, "UTF-8");
+
                 JSONArray jResponse = new JSONArray(response);
 
                 EventDeck.get().buildEventDeck(jResponse);

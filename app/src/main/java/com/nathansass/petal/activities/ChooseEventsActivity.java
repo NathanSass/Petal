@@ -70,7 +70,7 @@ public class ChooseEventsActivity extends AppCompatActivity {
 
     public void getDataFromServer() {
         ServerRequests serverRequests = new ServerRequests(this);
-        serverRequests.fetchEventDataInBackground(new GetEventsCallback() {
+        serverRequests.fetchEventDataInBackground(currentUser, new GetEventsCallback() {
             @Override
             public void done(EventDeck returnedEventDeck) {
 
