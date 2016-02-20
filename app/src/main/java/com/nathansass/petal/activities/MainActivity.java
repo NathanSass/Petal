@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.nathansass.petal.R;
+import com.nathansass.petal.data.ServerRequests;
+import com.nathansass.petal.interfaces.GetLikedEventsCallback;
+import com.nathansass.petal.models.LikedDeck;
 import com.nathansass.petal.models.User;
 import com.nathansass.petal.data.UserLocalStore;
 
@@ -19,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button bLogout;
     EditText etName, etAge, etUsername;
     UserLocalStore userLocalStore;
+    User currentUser;
 
     private Toolbar toolbar;
 
@@ -59,19 +63,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStart();
 
         if (authenticate()) {
+            currentUser = userLocalStore.getLoggedInUser();
 //            startActivity(new Intent(MainActivity.this, ChooseEventsActivity.class));
             displayUserDetails();
+            retrieveDataForAppInBackground();
+
         } else {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
+
+    }
+
+    public void retrieveDataForAppInBackground() {
+        ServerRequests serverRequests = new ServerRequests(this);
+        serverRequests.fetchLikedEventsDataInBackground(currentUser, new GetLikedEventsCallback() {
+            @Override
+            public void done(LikedDeck returnedLikedDeck) {
+                // Nothing to be done here
+                // Maybe update
+            }
+        });
     }
 
     private void displayUserDetails() {
-        User user = userLocalStore.getLoggedInUser();
-
-        etUsername.setText(user.username);
-        etName.setText(user.name);
-        etAge.setText(user.age + "");
+        etUsername.setText(currentUser.username);
+        etName.setText(currentUser.name);
+        etAge.setText(currentUser.age + "");
     }
 
     private boolean authenticate() {

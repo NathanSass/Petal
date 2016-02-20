@@ -4,13 +4,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.nathansass.petal.interfaces.GetEventsCallback;
+import com.nathansass.petal.interfaces.GetLikedEventsCallback;
 import com.nathansass.petal.interfaces.GetUserCallback;
 import com.nathansass.petal.interfaces.PostEventCallback;
 import com.nathansass.petal.interfaces.PostUsersEventsCallback;
 import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.EventDeck;
+import com.nathansass.petal.models.LikedDeck;
 import com.nathansass.petal.models.User;
 
 import org.apache.commons.io.IOUtils;
@@ -26,6 +29,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 
 /**
@@ -66,6 +70,69 @@ public class ServerRequests {
 
     public void storeUsersEventsDataInBackground(User currentUser, EventCard eventCard, Boolean created, Boolean attending, PostUsersEventsCallback callback){
         new StoreUsersEventsDataAsyncTask(currentUser, eventCard, created, attending, callback).execute();
+    }
+
+    public void fetchLikedEventsDataInBackground(User currentUser,GetLikedEventsCallback callback){
+        new FetchLikedEventsDataAsyncTask(currentUser, callback).execute();
+    }
+
+    /* Fetch Liked Events Data */
+    public class FetchLikedEventsDataAsyncTask extends AsyncTask<Void, Void, LikedDeck> {
+        GetLikedEventsCallback callback;
+        User currentUser;
+
+        public FetchLikedEventsDataAsyncTask(User currentUser, GetLikedEventsCallback callback) {
+            this.currentUser = currentUser;
+            this.callback    = callback;
+        }
+
+        @Override
+        protected LikedDeck doInBackground(Void... params) {
+            try {
+                URL url = new URL(SERVER_ADDRESS + "FetchLikedEventsData.php");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+
+                Uri.Builder builder = new Uri.Builder().appendQueryParameter("user_id", currentUser.id + "");
+
+                String query = builder.build().getEncodedQuery();
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
+                writer.write(query);
+                writer.close();
+                os.close();
+
+                conn.connect();
+
+                InputStream in  = new BufferedInputStream(conn.getInputStream());
+                String response = IOUtils.toString(in, "UTF-8");
+
+                JSONArray jResponse = new JSONArray(response);
+                Log.v(TAG,response);
+
+                LikedDeck.get().buildEventDeck(jResponse);
+
+                return LikedDeck.get();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(LikedDeck likedDeck) {
+            super.onPostExecute(likedDeck);
+            callback.done(likedDeck);
+        }
     }
 
     /* Store UsersEvents Relationship Data*/

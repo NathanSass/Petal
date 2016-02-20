@@ -10,18 +10,26 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.nathansass.petal.R;
+import com.nathansass.petal.data.UserLocalStore;
 import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.LikedDeck;
-import com.nathansass.petal.R;
+import com.nathansass.petal.models.User;
 
 /**
  * Created by nathansass on 2/4/16.
  */
 public class LikedEventsListActivity extends AppCompatActivity {
     public static final String TAG = LikedEventsListActivity.class.getSimpleName();
-    ListView myList = null;
+    Context context;
+    int duration;
 
+    UserLocalStore mUserLocalStore;
+    User currentUser;
+
+    ListView myList = null;
     LikedEventsAdapter mAdapter = null;
 
     private Toolbar toolbar;
@@ -30,13 +38,23 @@ public class LikedEventsListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.liked_events);
+
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+
+        /* Get user data for the logged in user */
+        mUserLocalStore = new UserLocalStore(this);
+        currentUser     = mUserLocalStore.getLoggedInUser();
+
+        /* Toast Things*/
+        context  = getApplicationContext();
+        duration = Toast.LENGTH_SHORT;
 
         myList   = (ListView) findViewById(R.id.likedEvents_listView);
         mAdapter = new LikedEventsAdapter(this);
         myList.setAdapter(mAdapter);
     }
+
 }
 
 class LikedEventsAdapter extends BaseAdapter{

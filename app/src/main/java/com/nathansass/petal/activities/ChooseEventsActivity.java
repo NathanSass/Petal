@@ -61,14 +61,11 @@ public class ChooseEventsActivity extends AppCompatActivity {
         duration = Toast.LENGTH_SHORT;
 
         /* On first instantiation: pulls in data to populate the event cards */
-        /* TODO: Get event data from the server */
         if ( EventDeck.get().getDeck().isEmpty() ) {
-//            getDataFromLocalJSONFile();
             getDataFromServer();
+        } else {
+            updateEventCardUI();
         }
-
-//        updateEventCardUI();
-
     }
 
     public void getDataFromServer() {
@@ -168,7 +165,7 @@ public class ChooseEventsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /* Methods for getting Event Info from local JSON File TODO: Deprecate*/
+    /* DEPRECATED: Methods for getting Event Info from local JSON File*/
     public void getDataFromLocalJSONFile() {
         try {
             String activityString = loadJSONFromAsset("activities");
