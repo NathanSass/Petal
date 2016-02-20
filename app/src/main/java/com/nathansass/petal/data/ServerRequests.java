@@ -4,10 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.nathansass.petal.interfaces.GetEventsCallback;
 import com.nathansass.petal.interfaces.GetUserCallback;
 import com.nathansass.petal.interfaces.PostEventCallback;
+import com.nathansass.petal.interfaces.PostUsersEventsCallback;
 import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.EventDeck;
 import com.nathansass.petal.models.User;
@@ -35,6 +37,7 @@ public class ServerRequests {
     ProgressDialog progressDialog;
     public static final int CONNECTION_TIMEOUT = 1000 * 15;
     public static final String SERVER_ADDRESS = "http://nathansass.comxa.com/";
+    public static final String TAG = ServerRequests.class.getSimpleName();
 
     public ServerRequests(Context context) {
         progressDialog = new ProgressDialog(context);
@@ -57,13 +60,72 @@ public class ServerRequests {
         progressDialog.show();
         new FetchEventDataAsyncTask(callback).execute();
     }
-    /* Store Event Card Data */
+
     public void storeEventDataInBackground(EventCard eventCard, PostEventCallback eventCallback) {
         new StoreEventDataAsyncTask(eventCard, eventCallback).execute();
-
     }
 
+    public void storeUsersEventsDataInBackground(User currentUser, EventCard eventCard, PostUsersEventsCallback callback){
+        new StoreUsersEventsDataAsyncTask(currentUser, eventCard, callback).execute();
+    }
 
+    /* Store UsersEvents Relationship Data*/
+    public class StoreUsersEventsDataAsyncTask extends AsyncTask<Void, Void, User> {
+
+        User currentUser;
+        EventCard eventCard;
+        PostUsersEventsCallback callback;
+
+        public StoreUsersEventsDataAsyncTask(User currentUser, EventCard eventCard, PostUsersEventsCallback callback) {
+            this.currentUser = currentUser;
+            this.eventCard   = eventCard;
+            this.callback    = callback;
+        }
+
+        @Override
+        protected User doInBackground(Void... params) {
+            try {
+                URL url = new URL(SERVER_ADDRESS + "PostUsersEventsData.php");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+
+                Uri.Builder builder = new Uri.Builder().appendQueryParameter("user_id", currentUser.id + "")
+                                                        .appendQueryParameter("event_id", eventCard.id + "")
+                                                        .appendQueryParameter("created", 1 + "")
+                                                        .appendQueryParameter("attending", 1 + "");
+
+                String query = builder.build().getEncodedQuery();
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
+                writer.write(query);
+                writer.close();
+                os.close();
+
+                conn.connect();
+
+                InputStream in  = new BufferedInputStream(conn.getInputStream());
+                String response = IOUtils.toString(in, "UTF-8");
+                Log.d(TAG, "userEventsId: " + response);
+
+                return currentUser;
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(User currentUser) {
+            super.onPostExecute(currentUser);
+            callback.done(currentUser);
+        }
+    }
+    /* Store Event Card Data */
     public class StoreEventDataAsyncTask extends AsyncTask<Void, Void, EventCard> {
         PostEventCallback eventCallback;
         EventCard eventCard;
@@ -92,11 +154,13 @@ public class ServerRequests {
 
                 conn.connect();
 
-                InputStream in = new BufferedInputStream(conn.getInputStream());
+                InputStream in  = new BufferedInputStream(conn.getInputStream());
                 String response = IOUtils.toString(in, "UTF-8");
 
+                int lastEventID = Integer.parseInt(response);
 
-                // TODO: add the id and return a new event instance with event ID;
+                eventCard.setId(lastEventID);
+
                 return eventCard;
 
             } catch (MalformedURLException e) {
@@ -248,8 +312,9 @@ public class ServerRequests {
                 } else {
                     String name = jResponse.getString("name");
                     int age     = jResponse.getInt("age");
+                    int id      = jResponse.getInt("id");
 
-                    returnedUser = new User(name, age, user.username, user.password);
+                    returnedUser = new User(id, name, age, user.username, user.password);
 
 
                 }

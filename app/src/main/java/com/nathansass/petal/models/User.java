@@ -5,19 +5,21 @@ package com.nathansass.petal.models;
  */
 public class User {
     public String name, username, password;
-    public int age;
+    public int age, id;
 
-    public User (String name, int age, String username, String password) {
+    public User (int id, String name, int age, String username, String password) {
         this.name     = name;
         this.age      = age;
         this.username = username;
         this.password = password;
+        this.id       = id;
+    }
+
+    public User (String name, int age, String username, String password) {
+        this(-1, name, age, username, password);
     }
 
     public User (String username, String password) {
-        this.username = username;
-        this.password = password;
-        this.age      = -1;
-        this.name     = "";
+        this(-1, "", -1, username, password);
     }
 }
