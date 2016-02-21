@@ -12,6 +12,8 @@ import android.widget.EditText;
 
 import com.nathansass.petal.R;
 import com.nathansass.petal.data.UserLocalStore;
+import com.nathansass.petal.models.EventDeck;
+import com.nathansass.petal.models.LikedDeck;
 import com.nathansass.petal.models.User;
 
 public class AccountActivity extends AppCompatActivity implements View.OnClickListener {
@@ -51,9 +53,11 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.bLogout:
                 // Also need to clear the decks and all other information
-                // TODO: Clear the decks!
+
                 userLocalStore.clearUserData();
                 userLocalStore.setUserLoggedIn(false);
+                LikedDeck.get().clearDeck();
+                EventDeck.get().clearDeck();
 
                 startActivity(new Intent(this, LoginActivity.class));
                 break;

@@ -65,4 +65,8 @@ public class SuperDeck {
         int idx = new Random().nextInt(getEventCount());
         return mAllDeck.get(idx);
     }
+
+    public void clearDeck() {
+        mAllDeck = new ArrayList<>();
+    }
 }
