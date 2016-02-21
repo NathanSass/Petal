@@ -71,52 +71,35 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        if (id == R.id.action_chooseEvents) {
+
+            Intent intent = new Intent(this, ChooseEventsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        if (id == R.id.action_createEvent) {
+
+            Intent intent = new Intent(this, CreateEventActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        if (id == R.id.action_likedEvents) {
+            Intent intent = new Intent(this, LikedEventsListActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        if (id == R.id.action_chooseEvents) {
-//            Intent intent = new Intent(this, ChooseEventsActivity.class);
-//            startActivity(intent);
-//            return true;
-//        }
-//
-//        if (id == R.id.action_createEvent) {
-//
-//            Intent intent = new Intent(this, CreateEventActivity.class);
-//            startActivity(intent);
-//            return true;
-//        }
-//
-//        if (id == R.id.action_likedEvents) {
-//            Intent intent = new Intent(this, LikedEventsListActivity.class);
-//            startActivity(intent);
-//            return true;
-//        }
-//
-//        if (id == R.id.action_account) {
-//            Intent intent = new Intent(this, AccountActivity.class);
-//            startActivity(intent);
-//            return true;
-//        }
-
-        return super.onOptionsItemSelected(item);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_account, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
 }

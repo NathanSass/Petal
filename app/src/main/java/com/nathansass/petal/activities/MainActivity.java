@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity  {
     protected void onStart() {
         super.onStart();
 
-        if (authenticate()) {
+        if ( authenticate() ) {
             currentUser = userLocalStore.getLoggedInUser();
 
             if ( EventDeck.get().getDeck().isEmpty() ) {
@@ -41,8 +41,6 @@ public class MainActivity extends AppCompatActivity  {
                 startActivity(new Intent(MainActivity.this, ChooseEventsActivity.class));
 
             }
-
-
 
         } else {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
@@ -57,14 +55,12 @@ public class MainActivity extends AppCompatActivity  {
             public void done(EventDeck returnedEventDeck) {
                 /* When the events are back, it starts the event so it feels non-laggy */
                 startActivity(new Intent(MainActivity.this, ChooseEventsActivity.class));
-
             }
         });
         /* Nothing needs to be done in the callback, maybe displaying an error message or retrying if a fail happens */
         serverRequests.fetchLikedEventsDataInBackground(currentUser, new GetLikedEventsCallback() {
             @Override
-            public void done(LikedDeck returnedLikedDeck) {
-            }
+            public void done(LikedDeck returnedLikedDeck) {}
         });
     }
 

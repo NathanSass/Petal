@@ -146,10 +146,6 @@ public class ChooseEventsActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         if (id == R.id.action_createEvent) {
 
             Intent intent = new Intent(this, CreateEventActivity.class);

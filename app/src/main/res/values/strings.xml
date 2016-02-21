@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">Petal</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <!-- For Menus-->
+    <string name="action_chooseEvents">Choose</string>
+    <string name="action_likedEvents">Liked</string>
+    <string name="action_createEvents">Create</string>
     <string name="action_account">Account</string>
+
     <string name="deck_empty_message">No More Events :`(</string>
+
     <string name="title_activity_login">Login</string>
     <string name="title_activity_register">Register</string>
     <string name="title_activity_choose_events">ChooseEvents</string>

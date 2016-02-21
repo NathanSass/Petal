@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -106,4 +108,34 @@ public class CreateEventActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_create_event, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_chooseEvents) {
+
+            Intent intent = new Intent(this, ChooseEventsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        if (id == R.id.action_likedEvents) {
+            Intent intent = new Intent(this, LikedEventsListActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        if (id == R.id.action_account) {
+            Intent intent = new Intent(this, AccountActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

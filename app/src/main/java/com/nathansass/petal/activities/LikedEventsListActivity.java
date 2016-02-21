@@ -1,10 +1,13 @@
 package com.nathansass.petal.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -50,11 +53,43 @@ public class LikedEventsListActivity extends AppCompatActivity {
         context  = getApplicationContext();
         duration = Toast.LENGTH_SHORT;
 
+        /* Sets Adapter */
         myList   = (ListView) findViewById(R.id.likedEvents_listView);
         mAdapter = new LikedEventsAdapter(this);
         myList.setAdapter(mAdapter);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_chooseEvents) {
+
+            Intent intent = new Intent(this, ChooseEventsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        if (id == R.id.action_createEvent) {
+
+            Intent intent = new Intent(this, CreateEventActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        if (id == R.id.action_account) {
+            Intent intent = new Intent(this, AccountActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_liked_events, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 }
 
 class LikedEventsAdapter extends BaseAdapter{
