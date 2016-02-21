@@ -15,6 +15,7 @@ import com.nathansass.petal.R;
 import com.nathansass.petal.data.ServerRequests;
 import com.nathansass.petal.data.UserLocalStore;
 import com.nathansass.petal.interfaces.GetEventsCallback;
+import com.nathansass.petal.interfaces.GetLikedEventsCallback;
 import com.nathansass.petal.interfaces.PostUsersEventsCallback;
 import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.EventDeck;
@@ -76,6 +77,12 @@ public class ChooseEventsActivity extends AppCompatActivity {
 
                 updateEventCardUI();
 
+            }
+        });
+        serverRequests.fetchLikedEventsDataInBackground(currentUser, new GetLikedEventsCallback() {
+            @Override
+            public void done(LikedDeck returnedLikedDeck) {
+                // Nothing needs to be done here
             }
         });
     }
@@ -156,8 +163,8 @@ public class ChooseEventsActivity extends AppCompatActivity {
             return true;
         }
 
-        if (id == R.id.action_chooseEvents) {
-            Intent intent = new Intent(this, ChooseEventsActivity.class);
+        if (id == R.id.action_account) {
+            Intent intent = new Intent(this, AccountActivity.class);
             startActivity(intent);
             return true;
         }

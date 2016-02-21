@@ -15,6 +15,7 @@ import com.nathansass.petal.data.UserLocalStore;
 import com.nathansass.petal.interfaces.PostEventCallback;
 import com.nathansass.petal.interfaces.PostUsersEventsCallback;
 import com.nathansass.petal.models.EventCard;
+import com.nathansass.petal.models.LikedDeck;
 import com.nathansass.petal.models.User;
 
 import org.json.JSONException;
@@ -69,7 +70,7 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     /* Saves event to the DB, creates association in UsersEvents */
-    public void saveEvent(EventCard newEvent) {
+    public void saveEvent(final EventCard newEvent) {
         final ServerRequests serverRequests = new ServerRequests(this);
         serverRequests.storeEventDataInBackground(newEvent, new PostEventCallback() {
             @Override
@@ -82,8 +83,10 @@ public class CreateEventActivity extends AppCompatActivity {
                 serverRequests.storeUsersEventsDataInBackground(currentUser, returnedEventCard, true, true, new PostUsersEventsCallback() {
                     @Override
                     public void done(int returnedRecordId) {
+
                         CharSequence txt;
                         if (returnedRecordId > 0) {
+                            LikedDeck.get().addEvent(newEvent);
                             txt = "Added: " + returnedEventCard.mTitle;
 
                         } else {
