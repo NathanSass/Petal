@@ -2,12 +2,14 @@ package com.nathansass.petal.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +17,7 @@ import com.nathansass.petal.R;
 import com.nathansass.petal.data.ServerRequests;
 import com.nathansass.petal.data.UserLocalStore;
 import com.nathansass.petal.interfaces.GetEventsCallback;
+import com.nathansass.petal.interfaces.GetImageCallback;
 import com.nathansass.petal.interfaces.GetLikedEventsCallback;
 import com.nathansass.petal.interfaces.PostUsersEventsCallback;
 import com.nathansass.petal.models.EventCard;
@@ -34,6 +37,7 @@ public class ChooseEventsActivity extends AppCompatActivity {
     public static final String TAG = ChooseEventsActivity.class.getSimpleName();
     Context context;
     int duration;
+    ImageView eventBanner;
 
     EventCard mCurrentEventCard = null;
     private Toolbar toolbar;
@@ -48,6 +52,9 @@ public class ChooseEventsActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+
+        /* UI components */
+        eventBanner = (ImageView) findViewById(R.id.eventBanner);
 
          /* Instantiate different decks */
         EventDeck.get();
@@ -98,6 +105,21 @@ public class ChooseEventsActivity extends AppCompatActivity {
 
         if ( !EventDeck.get().getDeck().isEmpty() ) {
             mCurrentEventCard = EventDeck.get().getNewEvent();
+            //
+            // Code goes here to get the appropriate image and such.
+            //
+            String url = "http://c1.staticflickr.com/1/43/112157881_e49fcde8a6_z.jpg";
+            ServerRequests serverRequests = new ServerRequests(this);
+            serverRequests.fetchImageInBackground(url, new GetImageCallback() {
+                @Override
+                public void done(Bitmap returnedImage) {
+                    eventBanner.setImageBitmap(returnedImage);
+
+                    Toast toast = Toast.makeText(context, "Image loaded", duration);
+                    toast.show();
+                }
+            });
+
             eventTitle.setText(mCurrentEventCard.mTitle);
         } else {
             eventTitle.setText(R.string.deck_empty_message);
