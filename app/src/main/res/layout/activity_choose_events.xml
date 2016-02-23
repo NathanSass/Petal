@@ -72,6 +72,36 @@
         android:layout_marginRight="30dp"/>
 
     <TextView
+        android:id="@+id/eventAddress"
+        android:layout_below="@+id/eventDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Unit 5, 1234 Farm St."
+        android:textColor="#ffffff"
+        android:layout_alignParentLeft="true"
+        android:textIsSelectable="false"
+        android:gravity="left"
+        android:layout_marginLeft="15dp"
+        android:textSize="15dp"/>
+
+    <TextView
+        android:id="@+id/eventAddressCityState"
+        android:layout_below="@+id/eventAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Corpus Christi, TX"
+        android:textColor="#ffffff"
+        android:layout_alignParentLeft="true"
+        android:textIsSelectable="false"
+        android:gravity="left"
+        android:layout_marginLeft="15dp"
+        android:textSize="15dp"/>
+
+    <TextView
         android:id="@+id/eventTitle"
         android:layout_below="@id/tool_bar"
         android:layout_width="match_parent"
