@@ -18,6 +18,7 @@ import com.nathansass.petal.data.ServerRequests;
 import com.nathansass.petal.data.UserLocalStore;
 import com.nathansass.petal.interfaces.GetEventsCallback;
 import com.nathansass.petal.interfaces.GetImageCallback;
+import com.nathansass.petal.interfaces.GetImageURLSCallback;
 import com.nathansass.petal.interfaces.GetLikedEventsCallback;
 import com.nathansass.petal.interfaces.PostUsersEventsCallback;
 import com.nathansass.petal.models.EventCard;
@@ -31,6 +32,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Random;
 
 public class ChooseEventsActivity extends AppCompatActivity {
 
@@ -105,20 +107,45 @@ public class ChooseEventsActivity extends AppCompatActivity {
 
         if ( !EventDeck.get().getDeck().isEmpty() ) {
             mCurrentEventCard = EventDeck.get().getNewEvent();
-            //
-            // Code goes here to get the appropriate image and such.
-            //
-            String url = "http://c1.staticflickr.com/1/43/112157881_e49fcde8a6_z.jpg";
-            ServerRequests serverRequests = new ServerRequests(this);
-            serverRequests.fetchImageInBackground(url, new GetImageCallback() {
-                @Override
-                public void done(Bitmap returnedImage) {
-                    eventBanner.setImageBitmap(returnedImage);
 
-                    Toast toast = Toast.makeText(context, "Image loaded", duration);
-                    toast.show();
+            final ServerRequests serverRequests = new ServerRequests(this);
+
+
+            /* param not currently being used */
+            serverRequests.fetchImageUrlsInBackground("swingdance", new GetImageURLSCallback() {
+                @Override
+                public void done(JSONArray returnedUrls) {
+                    String imageUrl = null;
+                    try {
+                        JSONObject returnedUrl = (JSONObject) returnedUrls.get(new Random().nextInt(returnedUrls.length()));
+
+                        String farmId = returnedUrl.getInt("farm") + "";
+                        String serverId = returnedUrl.getString("server");
+                        String id = returnedUrl.getString("id");
+                        String secret = returnedUrl.getString("secret");
+                        String size = "n";
+
+                        imageUrl = "https://farm" + farmId + ".staticflickr.com/" + serverId + "/" + id + "_" + secret + "_" + size + ".jpg";
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    serverRequests.fetchImageInBackground(imageUrl, new GetImageCallback() {
+                        @Override
+                        public void done(Bitmap returnedImage) {
+                            eventBanner.setImageBitmap(returnedImage);
+
+                            Toast toast = Toast.makeText(context, "Image loaded", duration);
+                            toast.show();
+                        }
+                    });
+
+
                 }
             });
+
+
 
             eventTitle.setText(mCurrentEventCard.mTitle);
         } else {

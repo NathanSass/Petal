@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.nathansass.petal.interfaces.GetEventsCallback;
 import com.nathansass.petal.interfaces.GetImageCallback;
+import com.nathansass.petal.interfaces.GetImageURLSCallback;
 import com.nathansass.petal.interfaces.GetLikedEventsCallback;
 import com.nathansass.petal.interfaces.GetUserCallback;
 import com.nathansass.petal.interfaces.PostEventCallback;
@@ -25,14 +26,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 /**
@@ -81,6 +82,73 @@ public class ServerRequests {
 
     public void fetchImageInBackground(String url, GetImageCallback callback){
         new FetchImageAsyncTask(url, callback).execute();
+    }
+
+    public void fetchImageUrlsInBackground(String searchTags, GetImageURLSCallback callback) {
+        new FetchImageUrlsAsyncTask(searchTags, callback).execute();
+    }
+
+    public class FetchImageUrlsAsyncTask extends AsyncTask<Void, Void, JSONArray> {
+        String searchTags;
+        GetImageURLSCallback callback;
+        JSONArray resultUrls;
+        protected String apiKey = "53f0467d174b9080cbd9e2dd871e60d0";
+
+        public FetchImageUrlsAsyncTask(String searchTags, GetImageURLSCallback callback) {
+            this.searchTags = searchTags;
+            this.callback = callback;
+            //TODO: build something to format search tags
+        }
+
+        @Override
+        protected JSONArray doInBackground(Void... params) {
+            String urlStr = "https://api.flickr.com/services/rest/?method=flickr.photos.search" +
+                    "&api_key=" + apiKey +
+                    "&tags=" + "lindyhop" + //"swingdance%2C+dance%2C+party" +
+                    "&safe_search=1&per_page=10&format=json&nojsoncallback=1";
+
+            try {
+                URL url = new URL(urlStr);
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("GET");
+
+
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(conn.getInputStream()));
+
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+
+                JSONObject objResults = new JSONObject(response.toString());
+
+                resultUrls = objResults.getJSONObject("photos").getJSONArray("photo");
+
+                Log.v(TAG, resultUrls.toString());
+
+
+                return resultUrls;
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            return resultUrls;
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray resultUrls) {
+            super.onPostExecute(resultUrls);
+            callback.done(resultUrls);
+        }
     }
 
     /* Fetch Image */
@@ -145,21 +213,15 @@ public class ServerRequests {
                 String response = IOUtils.toString(in, "UTF-8");
 
                 JSONArray jResponse = new JSONArray(response);
-                Log.v(TAG,response);
 
                 LikedDeck.get().buildEventDeck(jResponse);
 
                 return LikedDeck.get();
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
+
 
             return null;
         }
@@ -224,8 +286,6 @@ public class ServerRequests {
                 int lastId = Integer.parseInt(response);
                 return lastId;
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -279,8 +339,6 @@ public class ServerRequests {
 
                 return eventCard;
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
