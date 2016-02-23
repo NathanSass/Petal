@@ -10,12 +10,30 @@
 
     <com.nathansass.petal.widgets.AspectRatioImageView
         android:layout_width="fill_parent"
-        android:layout_height="200dp"
+        android:layout_height="match_parent"
         android:src="@drawable/outkast"
         android:id="@+id/eventBanner"
         android:layout_below="@+id/tool_bar"
         android:layout_alignRight="@+id/likeEvent"
         android:layout_alignEnd="@+id/likeEvent"/>
+    <View
+        android:layout_below="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/event_gradient_top"/>
+
+    <View
+        android:id="@+id/eventBannerBottomGradient"
+        android:layout_below="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_marginTop="140dp"
+        android:layout_height="100dp"
+        android:background="@drawable/event_gradient_bottom"/>
+    <View
+        android:layout_below="@+id/eventBannerBottomGradient"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/event_image_mask"/>
 
     <TextView
         android:id="@+id/eventDistance"
