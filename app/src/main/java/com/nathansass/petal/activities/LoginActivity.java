@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     EditText etUsername, etPassword;
     TextView tvRegisterLink;
     Button bLogin;
+    private android.support.v7.app.ActionBar actionBar;
 
     UserLocalStore userLocalStore;
 
@@ -35,6 +36,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(R.drawable.petal_logo_with_text);
 
         etUsername     = (EditText) findViewById(R.id.etUsername);
         etPassword     = (EditText) findViewById(R.id.etPassword);

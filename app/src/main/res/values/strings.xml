@@ -12,5 +12,5 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_register">Register</string>
     <string name="title_activity_choose_events">ChooseEvents</string>
-    <string name="title_activity_account">AccountActivity</string>
+    <string name="title_activity_account">Account</string>
 </resources>

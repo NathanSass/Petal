@@ -18,9 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.CreateEventActivity">
+        <activity
+            android:name=".activities.CreateEventActivity"
+            android:label="Create a new event">
         </activity>
-        <activity android:name=".activities.LikedEventsListActivity">
+        <activity
+            android:name=".activities.LikedEventsListActivity"
+            android:label="Schedule">
         </activity>
         <activity
             android:name=".activities.LoginActivity"

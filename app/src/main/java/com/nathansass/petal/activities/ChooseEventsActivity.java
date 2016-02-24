@@ -43,6 +43,7 @@ public class ChooseEventsActivity extends AppCompatActivity {
 
     EventCard mCurrentEventCard = null;
     private Toolbar toolbar;
+    private android.support.v7.app.ActionBar actionBar;
 
     UserLocalStore mUserLocalStore;
     User currentUser;
@@ -52,8 +53,14 @@ public class ChooseEventsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_events);
 
+        /* Create the toolbar */
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(R.drawable.petal_logo_with_text);
 
         /* UI components */
         eventBanner = (ImageView) findViewById(R.id.eventBanner);
