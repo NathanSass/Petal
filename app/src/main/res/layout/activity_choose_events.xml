@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -13,9 +14,7 @@
         android:layout_height="match_parent"
         android:src="@drawable/outkast"
         android:id="@+id/eventBanner"
-        android:layout_below="@+id/tool_bar"
-        android:layout_alignRight="@+id/likeEvent"
-        android:layout_alignEnd="@+id/likeEvent"/>
+        android:layout_below="@+id/tool_bar"/>
     <View
         android:layout_below="@+id/tool_bar"
         android:layout_width="match_parent"
@@ -33,7 +32,8 @@
         android:layout_below="@+id/eventBannerBottomGradient"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/event_image_mask"/>
+        android:background="@drawable/event_image_mask"
+        android:backgroundTint="#ffffff"/>
 
     <TextView
         android:id="@+id/eventDistance"
@@ -129,29 +129,145 @@
         android:textIsSelectable="false"
         android:gravity="left"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Like Event"
-        android:id="@+id/likeEvent"
-        android:background="#50E3C2"
-        android:onClick="eventLikeButtonClick"
-        android:layout_marginBottom="54dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+    <!-- BELOW THE IMAGE-->
 
-    <Button
+    <TextView
+        android:id="@+id/eventAboutHeading"
+        android:layout_below="@+id/eventBannerBottomGradient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="ABOUT"
+        android:textColor="#00B9E6"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="30dp"
+        android:textSize="15dp"
+        android:textIsSelectable="false"
+        android:gravity="left"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:id="@+id/eventAbout"
+        android:layout_below="@+id/eventAboutHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="In honor of Living History Day 2016, experience first hand the momentous battles of the civil war with live reinactors, soldiers and artillery demonstrations."
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="30dp"
+        android:textSize="15dp"
+        android:textIsSelectable="false"
+        android:gravity="left"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/eventTimeHeading"
+        android:layout_below="@+id/eventAbout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Skip Event"
-        android:id="@+id/discardEvent"
-        android:background="#FFF"
-        android:onClick="eventSkipButtonClick"
-        android:textColor="#FF217B"
-        android:layout_alignTop="@+id/likeEvent"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="TIME"
+        android:textColor="#00B9E6"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
+        android:textSize="15dp"
+        android:textIsSelectable="false"
+        android:gravity="left"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:id="@+id/eventSizeHeading"
+        android:layout_below="@+id/eventAbout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="EVENT SIZE"
+        android:textColor="#00B9E6"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
+        android:textSize="15dp"
+        android:textIsSelectable="false"
+        android:gravity="right"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="30dp"/>
+
+    <TextView
+        android:id="@+id/eventTime"
+        android:layout_below="@+id/eventTimeHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="10:00am - 11:30pm"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
+        android:textSize="20dp"
+        android:textIsSelectable="true"
+        android:gravity="left"
+        android:layout_marginTop="15dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/eventSize"
+        android:layout_below="@+id/eventSizeHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Community"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
+        android:textSize="20dp"
+        android:textIsSelectable="false"
+        android:gravity="right"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="30dp"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        >
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_red_24px"
+            android:layout_margin="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            app:backgroundTint="#ffffff"
+            android:layout_weight="1.0"
+            android:onClick="eventSkipButtonClick"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab2"
+            android:layout_width="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_done"
+            app:backgroundTint="#50E3C2"
+            android:layout_weight="1.0"
+            android:onClick="eventLikeButtonClick"/>
+
+    </LinearLayout>
+
 
 
 
