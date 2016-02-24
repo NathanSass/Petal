@@ -1,6 +1,11 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="default_margin">15dp</dimen>
+
+    <!-- Margin for choose events -->
+    <dimen name="horiz_marginLeft_banner">15dp</dimen>
+    <dimen name="horiz_marginLeft">30dp</dimen>
+
+    <dimen name="vertical_margin_related_textViews">10dp</dimen>
 </resources>

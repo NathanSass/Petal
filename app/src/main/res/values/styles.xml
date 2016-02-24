@@ -1,4 +1,7 @@
 <resources>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -7,8 +10,62 @@
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <!-- Blue Labels-->
+    <style name="LabelAccent" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/ColorPrimary</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:textIsSelectable">false</item>
+        <item name="android:layout_marginTop">@dimen/default_margin</item>
+        <item name="android:singleLine">true</item>
+    </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="LabelAccent.left" parent="LabelAccent">
+        <item name="android:gravity">left</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_marginLeft">@dimen/default_margin</item>
+    </style>
+
+    <style name="LabelAccent.right" parent="LabelAccent">
+        <item name="android:gravity">right</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginRight">@dimen/default_margin</item>
+    </style>
+
+    <!-- Paragraph text-->
+    <style name="paragraphText" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>>
+        <item name="android:textSize">15dp</item>
+        <item name="android:textIsSelectable">false</item>
+        <item name="android:layout_marginTop">@dimen/vertical_margin_related_textViews</item>
+        <item name="android:layout_marginLeft">@dimen/default_margin</item>
+        <item name="android:gravity">left</item>
+    </style>
+
+    <!-- Emphasized Text On White Background-->
+    <style name="emphasizedContent" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textIsSelectable">false</item>
+        <item name="android:layout_marginTop">@dimen/default_margin</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="emphasizedText.Left" parent="emphasizedContent">
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_marginLeft">@dimen/default_margin</item>
+        <item name="android:gravity">left</item>
+    </style>
+
+    <style name="emphasizedText.Right" parent="emphasizedContent">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginRight">@dimen/default_margin</item>
+        <item name="android:gravity">right</item>
+    </style>
+
+
 
 </resources>

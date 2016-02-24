@@ -6,16 +6,18 @@
                 tools:context=".MainActivity">
     <include
         android:id="@+id/tool_bar"
-        layout="@layout/tool_bar"
-        />
+        layout="@layout/tool_bar"/>
 
+    <!-- Event Image -->
     <com.nathansass.petal.widgets.AspectRatioImageView
+        android:id="@+id/eventBanner"
+        android:layout_below="@+id/tool_bar"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/outkast"
-        android:id="@+id/eventBanner"
-        android:layout_below="@+id/tool_bar"/>
+        android:src="@drawable/outkast"/>
+
     <View
+        android:id="@+id/eventBannerTopGradient"
         android:layout_below="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -27,14 +29,18 @@
         android:layout_width="match_parent"
         android:layout_marginTop="140dp"
         android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
         android:background="@drawable/event_gradient_bottom"/>
     <View
         android:layout_below="@+id/eventBannerBottomGradient"
         android:layout_width="match_parent"
+        android:layout_marginLeft="0dp"
         android:layout_height="match_parent"
         android:background="@drawable/event_image_mask"
         android:backgroundTint="#ffffff"/>
 
+    <!--Text over the image-->
     <TextView
         android:id="@+id/eventDistance"
         android:layout_below="@+id/tool_bar"
@@ -46,12 +52,13 @@
         android:textColor="#ffffff"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="@dimen/horiz_marginLeft_banner"
         android:layout_alignParentLeft="true"
         android:textStyle="bold"
         android:textSize="20dp"
         android:textIsSelectable="false"
-        android:gravity="left"/>
+        android:gravity="left"
+        android:layout_alignParentStart="true"/>
 
     <TextView
         android:id="@+id/eventPrice"
@@ -83,7 +90,7 @@
         android:layout_alignParentLeft="true"
         android:textIsSelectable="false"
         android:gravity="left"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="@dimen/horiz_marginLeft_banner"
         android:textSize="15dp"/>
 
     <TextView
@@ -98,7 +105,7 @@
         android:layout_alignParentLeft="true"
         android:textIsSelectable="false"
         android:gravity="left"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="@dimen/horiz_marginLeft_banner"
         android:textSize="15dp"/>
 
     <TextView
@@ -111,7 +118,7 @@
         android:textColor="#ffffff"
         android:gravity="left"
         android:layout_marginTop="180dp"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="@dimen/horiz_marginLeft_banner"
         android:textStyle="bold"
         android:textSize="20dp"
         android:textIsSelectable="false"/>
@@ -133,102 +140,40 @@
 
     <TextView
         android:id="@+id/eventAboutHeading"
+        style="@style/LabelAccent.left"
         android:layout_below="@+id/eventBannerBottomGradient"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="ABOUT"
-        android:textColor="#00B9E6"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="30dp"
-        android:textSize="15dp"
-        android:textIsSelectable="false"
-        android:gravity="left"
-        android:layout_marginTop="15dp"/>
+        android:text="ABOUT"/>
 
     <TextView
         android:id="@+id/eventAbout"
+        style="@style/paragraphText"
         android:layout_below="@+id/eventAboutHeading"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="In honor of Living History Day 2016, experience first hand the momentous battles of the civil war with live reinactors, soldiers and artillery demonstrations."
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="30dp"
-        android:textSize="15dp"
-        android:textIsSelectable="false"
-        android:gravity="left"
-        android:layout_marginTop="10dp"/>
+        />
 
     <TextView
         android:id="@+id/eventTimeHeading"
+        style="@style/LabelAccent.left"
         android:layout_below="@+id/eventAbout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="TIME"
-        android:textColor="#00B9E6"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="15dp"
-        android:textSize="15dp"
-        android:textIsSelectable="false"
-        android:gravity="left"
-        android:layout_marginTop="15dp"/>
+        android:text="TIME"/>
 
     <TextView
         android:id="@+id/eventSizeHeading"
+        style="@style/LabelAccent.right"
         android:layout_below="@+id/eventAbout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="EVENT SIZE"
-        android:textColor="#00B9E6"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="15dp"
-        android:textSize="15dp"
-        android:textIsSelectable="false"
-        android:gravity="right"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="30dp"/>
+        android:text="EVENT SIZE"/>
 
     <TextView
         android:id="@+id/eventTime"
+        style="@style/emphasizedText.Left"
         android:layout_below="@+id/eventTimeHeading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="10:00am - 11:30pm"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="15dp"
-        android:textSize="20dp"
-        android:textIsSelectable="true"
-        android:gravity="left"
-        android:layout_marginTop="15dp"
-        android:textStyle="bold"/>
+        android:text="10:00am - 11:30pm" />
 
     <TextView
         android:id="@+id/eventSize"
+        style="@style/emphasizedText.Right"
         android:layout_below="@+id/eventSizeHeading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Community"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="15dp"
-        android:textSize="20dp"
-        android:textIsSelectable="false"
-        android:gravity="right"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="30dp"
-        android:textStyle="bold"/>
+        android:text="Community"/>
 
     <LinearLayout
         android:orientation="horizontal"

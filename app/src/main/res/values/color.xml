@@ -2,4 +2,6 @@
 <resources>
     <color name="ColorPrimary">#00B9E6</color>
     <color name="ColorPrimaryDark">#0C92B2</color>
+
+    <color name="ColorLabelHeading">#00B9E6</color>
 </resources>
