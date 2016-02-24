@@ -11,11 +11,11 @@
     </style>
 
     <!-- Blue Labels-->
-    <style name="LabelAccent" parent="TextAppearance.AppCompat.Medium">
+    <style name="LabelAccent" parent="TextAppearance.AppCompat.Small">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/ColorPrimary</item>
-        <item name="android:textSize">12dp</item>
+        <item name="android:textAllCaps">true</item>
         <item name="android:textIsSelectable">false</item>
         <item name="android:layout_marginTop">@dimen/default_margin</item>
         <item name="android:singleLine">true</item>

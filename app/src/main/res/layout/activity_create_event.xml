@@ -9,25 +9,28 @@
         layout="@layout/tool_bar"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Create A New Event"
-        android:id="@+id/textView"
-        android:layout_gravity="center_horizontal"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Event Name"
-        android:id="@+id/eventName_label"/>
-
+        android:id="@+id/eventName_label"
+        style="@style/LabelAccent.left"
+        android:text="Event Name" />
     <EditText
+        android:id="@+id/eventName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/eventName"/>
+        android:layout_marginLeft="@dimen/default_margin"/>
+
+    <TextView
+        android:id="@+id/eventDate_label"
+        style="@style/LabelAccent.left"
+        android:text="Date" />
+    <EditText
+        android:id="@+id/eventDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:hint="07/11/2016"
+        android:inputType="date"/>
 
     <Button
         android:layout_width="wrap_content"

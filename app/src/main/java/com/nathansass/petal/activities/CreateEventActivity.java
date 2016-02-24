@@ -16,6 +16,7 @@ import com.nathansass.petal.data.ServerRequests;
 import com.nathansass.petal.data.UserLocalStore;
 import com.nathansass.petal.interfaces.PostEventCallback;
 import com.nathansass.petal.interfaces.PostUsersEventsCallback;
+import com.nathansass.petal.models.Date_PickerDialog;
 import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.LikedDeck;
 import com.nathansass.petal.models.User;
@@ -35,6 +36,11 @@ public class CreateEventActivity extends AppCompatActivity {
     User currentUser;
     UserLocalStore mUserLocalStore;
 
+    /* Datepicker */
+    int year_x, month_x, day_x;
+    static final int DIALOG_ID = 0;
+    EditText dateInput;
+
     private Toolbar toolbar;
 
     @Override
@@ -44,16 +50,34 @@ public class CreateEventActivity extends AppCompatActivity {
 
         /* Get user data for the logged in user */
         mUserLocalStore = new UserLocalStore(this);
-        currentUser     = mUserLocalStore.getLoggedInUser();
+        currentUser = mUserLocalStore.getLoggedInUser();
 
         /* Toast Things*/
-        context  = getApplicationContext();
+        context = getApplicationContext();
         duration = Toast.LENGTH_SHORT;
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
+        showDatepickerOnFocus();
+
     }
+
+    public void showDatepickerOnFocus() {
+        dateInput = (EditText) findViewById(R.id.eventDate);
+
+        dateInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    Date_PickerDialog datePickerDialog = new Date_PickerDialog();
+                    datePickerDialog.show(getSupportFragmentManager(), "date_picker");
+                }
+
+            }
+        });
+    }
+
 
     public void createEventButtonClick(View view) {
         JSONObject obj = new JSONObject();
