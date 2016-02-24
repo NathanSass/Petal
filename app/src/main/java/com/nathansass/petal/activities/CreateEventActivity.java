@@ -11,18 +11,22 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
+import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
 import com.nathansass.petal.R;
 import com.nathansass.petal.data.ServerRequests;
 import com.nathansass.petal.data.UserLocalStore;
 import com.nathansass.petal.interfaces.PostEventCallback;
 import com.nathansass.petal.interfaces.PostUsersEventsCallback;
-import com.nathansass.petal.models.Date_PickerDialog;
 import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.LikedDeck;
 import com.nathansass.petal.models.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by nathansass on 2/2/16.
@@ -37,8 +41,8 @@ public class CreateEventActivity extends AppCompatActivity {
     UserLocalStore mUserLocalStore;
 
     /* Datepicker */
-    int year_x, month_x, day_x;
-    static final int DIALOG_ID = 0;
+    Date startDateTime;
+    int year, month, day, hour, minute;
     EditText dateInput;
 
     private Toolbar toolbar;
@@ -64,19 +68,65 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     public void showDatepickerOnFocus() {
-        dateInput = (EditText) findViewById(R.id.eventDate);
+        dateInput = (EditText) findViewById(R.id.eventDateTime);
 
         dateInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    Date_PickerDialog datePickerDialog = new Date_PickerDialog();
-                    datePickerDialog.show(getSupportFragmentManager(), "date_picker");
+                    showDateTimeDialog();
                 }
+            }
+        });
 
+        dateInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDateTimeDialog();
             }
         });
     }
+
+
+    private void showDateTimeDialog() {
+        new SlideDateTimePicker.Builder(getSupportFragmentManager())
+                .setListener(listener)
+                .setInitialDate(new Date())
+                .setMinDate(new Date())
+                        //.setMaxDate(maxDate)
+                        //.setIs24HourTime(true)
+                        //.setTheme(SlideDateTimePicker.HOLO_DARK)
+                        //.setIndicatorColor(Color.parseColor("#990000"))
+                .build()
+                .show();
+    }
+
+    private SlideDateTimeListener listener = new SlideDateTimeListener() {
+        @Override
+        public void onDateTimeSet(Date date) {
+            startDateTime = date;
+            /*
+             Save the date object;
+             change the placeholder on the thing to match;
+             */
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            year = calendar.get(calendar.YEAR);
+            month = calendar.get(calendar.MONTH);
+            day = calendar.get(calendar.DAY_OF_MONTH);
+
+            hour = calendar.get(calendar.HOUR_OF_DAY); //24 hour
+            int hour2 = calendar.get(Calendar.HOUR);
+            minute = calendar.get(calendar.MINUTE);
+            int amPm = calendar.get(calendar.AM_PM);
+
+            Toast toast = Toast.makeText(context, "hourofDay: " + hour + " hour: " + hour2 + " minute: " + minute + " amPm: " + amPm, Toast.LENGTH_LONG);
+//            Toast toast = Toast.makeText(context, "Date: " + month + "/" + day + "/" + year, Toast.LENGTH_LONG);
+//            Toast toast = Toast.makeText(context, "Date: " + date.toString(), Toast.LENGTH_LONG);
+            toast.show();
+        }
+    };
 
 
     public void createEventButtonClick(View view) {

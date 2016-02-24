@@ -73,7 +73,7 @@
         android:layout_below="@id/tool_bar"
         android:text="First Event Which Will Never Show Up"/>
     <TextView
-        android:id="@+id/eventDate"
+        android:id="@+id/eventDateTime"
         style="@style/paragraphText.Left.Light"
         android:layout_below="@+id/eventTitle"
         android:text="Saturday, April 27"/>

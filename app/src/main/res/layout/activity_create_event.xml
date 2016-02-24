@@ -9,39 +9,116 @@
         layout="@layout/tool_bar"
         />
 
-
-    <TextView
-        android:id="@+id/eventName_label"
-        style="@style/LabelAccent.left"
-        android:text="Event Name" />
-    <EditText
-        android:id="@+id/eventName"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/default_margin"/>
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/eventDate_label"
-        style="@style/LabelAccent.left"
-        android:text="Date" />
-    <EditText
-        android:id="@+id/eventDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/default_margin"
-        android:hint="07/11/2016"
-        android:inputType="date"/>
+            <TextView
+                android:id="@+id/eventName_label"
+                style="@style/LabelAccent.left"
+                android:text="Give us a cool title" />
+            <EditText
+                android:id="@+id/eventName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create Event"
-        android:id="@+id/createEvent_submit"
-        android:background="#50E3C2"
-        android:onClick="createEventButtonClick"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="67dp"
-        android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:id="@+id/eventDateTime_label"
+                style="@style/LabelAccent.left"
+                android:text="Start: Date &amp; time" />
+            <EditText
+                android:id="@+id/eventDateTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:hint="3:00pm on 07/11/2016"
+                android:inputType="datetime"/>
+
+            <TextView
+                android:id="@+id/eventDuration_label"
+                style="@style/LabelAccent.left"
+                android:text="Duration?" />
+            <EditText
+                android:id="@+id/eventDuration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:hint="3 Hours"
+                android:inputType="number"/>
+
+            <TextView
+                android:id="@+id/eventPrice_label"
+                style="@style/LabelAccent.left"
+                android:text="Price" />
+            <LinearLayout
+                android:id="@+id/eventPriceContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="5dp"
+                    android:text="$"
+                    android:id="@+id/textView"/>
+                <EditText
+                    android:id="@+id/eventPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:hint="5"
+                    android:inputType="number"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/eventAbout_label"
+                style="@style/LabelAccent.left"
+                android:text="What's going on?" />
+            <EditText
+                android:id="@+id/eventAbout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:maxLength="140"
+                android:hint="Let us know what's planned..."
+                android:ems="10"/>
+
+            <TextView
+                android:id="@+id/eventAddress_Label"
+                style="@style/LabelAccent.left"
+                android:text="Address please" />
+            <EditText
+                android:id="@+id/eventAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:hint="1234 Farm st."/>
+
+            <Button
+                android:id="@+id/createEvent_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create Event"
+                android:background="#50E3C2"
+                android:onClick="createEventButtonClick"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"/>
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
