@@ -43,101 +43,42 @@
     <!--Text over the image-->
     <TextView
         android:id="@+id/eventDistance"
+        style="@style/emphasizedContent.Left.Light"
         android:layout_below="@+id/tool_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="3.1 Miles Away"
-        android:textColor="#ffffff"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="@dimen/horiz_marginLeft_banner"
-        android:layout_alignParentLeft="true"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:textIsSelectable="false"
-        android:gravity="left"
-        android:layout_alignParentStart="true"/>
+        android:text="3.1 Miles Away"/>
 
     <TextView
         android:id="@+id/eventPrice"
         android:layout_below="@+id/tool_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/emphasizedContent.Right.Light"
         android:layout_toRightOf="@+id/eventDistance"
-        android:layout_alignParentRight="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="FREE"
-        android:textColor="#ffffff"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:textIsSelectable="false"
-        android:gravity="right"
-        android:layout_marginRight="30dp"/>
+        android:text="FREE"/>
 
     <TextView
         android:id="@+id/eventAddress"
+        style="@style/paragraphText.Left.Light"
         android:layout_below="@+id/eventDistance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Unit 5, 1234 Farm St."
-        android:textColor="#ffffff"
-        android:layout_alignParentLeft="true"
-        android:textIsSelectable="false"
-        android:gravity="left"
-        android:layout_marginLeft="@dimen/horiz_marginLeft_banner"
-        android:textSize="15dp"/>
+        android:text="Unit 5, 1234 Farm St."/>
 
     <TextView
         android:id="@+id/eventAddressCityState"
+        style="@style/paragraphText.Left.Light"
         android:layout_below="@+id/eventAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Corpus Christi, TX"
-        android:textColor="#ffffff"
-        android:layout_alignParentLeft="true"
-        android:textIsSelectable="false"
-        android:gravity="left"
-        android:layout_marginLeft="@dimen/horiz_marginLeft_banner"
-        android:textSize="15dp"/>
+        android:text="Corpus Christi, TX"/>
 
     <TextView
         android:id="@+id/eventTitle"
-        android:layout_below="@id/tool_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="First Event Which Will Never Show Up"
-        android:textColor="#ffffff"
-        android:gravity="left"
+        style="@style/emphasizedContent.Left.Light"
         android:layout_marginTop="180dp"
-        android:layout_marginLeft="@dimen/horiz_marginLeft_banner"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:textIsSelectable="false"/>
+        android:layout_below="@id/tool_bar"
+        android:text="First Event Which Will Never Show Up"/>
     <TextView
         android:id="@+id/eventDate"
+        style="@style/paragraphText.Left.Light"
         android:layout_below="@+id/eventTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Saturday, April 27"
-        android:textColor="#ffffff"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="30dp"
-        android:textSize="15dp"
-        android:textIsSelectable="false"
-        android:gravity="left"/>
+        android:text="Saturday, April 27"/>
 
     <!-- BELOW THE IMAGE-->
-
     <TextView
         android:id="@+id/eventAboutHeading"
         style="@style/LabelAccent.left"
@@ -146,7 +87,7 @@
 
     <TextView
         android:id="@+id/eventAbout"
-        style="@style/paragraphText"
+        style="@style/paragraphText.Left"
         android:layout_below="@+id/eventAboutHeading"
         android:text="In honor of Living History Day 2016, experience first hand the momentous battles of the civil war with live reinactors, soldiers and artillery demonstrations."
         />
@@ -165,13 +106,13 @@
 
     <TextView
         android:id="@+id/eventTime"
-        style="@style/emphasizedText.Left"
+        style="@style/emphasizedContent.Left"
         android:layout_below="@+id/eventTimeHeading"
         android:text="10:00am - 11:30pm" />
 
     <TextView
         android:id="@+id/eventSize"
-        style="@style/emphasizedText.Right"
+        style="@style/emphasizedContext.Right"
         android:layout_below="@+id/eventSizeHeading"
         android:text="Community"/>
 
@@ -186,7 +127,6 @@
         >
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_close_red_24px"
@@ -199,7 +139,6 @@
             android:onClick="eventSkipButtonClick"/>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab2"
             android:layout_width="wrap_content"
             android:layout_margin="10dp"
             android:layout_marginRight="20dp"
@@ -212,8 +151,5 @@
             android:onClick="eventLikeButtonClick"/>
 
     </LinearLayout>
-
-
-
 
 </RelativeLayout>

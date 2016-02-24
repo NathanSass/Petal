@@ -41,8 +41,18 @@
         <item name="android:textIsSelectable">false</item>
         <item name="android:layout_marginTop">@dimen/vertical_margin_related_textViews</item>
         <item name="android:layout_marginLeft">@dimen/default_margin</item>
+    </style>
+
+    <style name="paragraphText.Left" parent="paragraphText">
         <item name="android:gravity">left</item>
     </style>
+
+    <!-- Paragraph text on light background-->
+    <style name="paragraphText.Left.Light" parent="paragraphText.Left">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:layout_marginTop">0dp</item>
+    </style>
+
 
     <!-- Emphasized Text On White Background-->
     <style name="emphasizedContent" parent="TextAppearance.AppCompat.Medium">
@@ -54,16 +64,25 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="emphasizedText.Left" parent="emphasizedContent">
+    <style name="emphasizedContent.Left" parent="emphasizedContent">
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_marginLeft">@dimen/default_margin</item>
         <item name="android:gravity">left</item>
     </style>
 
-    <style name="emphasizedText.Right" parent="emphasizedContent">
+    <style name="emphasizedContext.Right" parent="emphasizedContent">
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_marginRight">@dimen/default_margin</item>
         <item name="android:gravity">right</item>
+    </style>
+
+    <!-- Emphasized Text on Dark Background-->
+    <style name="emphasizedContent.Left.Light" parent="emphasizedContent.Left">
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="emphasizedContent.Right.Light" parent="emphasizedContext.Right">
+        <item name="android:textColor">#ffffff</item>
     </style>
 
 
