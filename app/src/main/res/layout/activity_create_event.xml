@@ -20,13 +20,14 @@
             <TextView
                 android:id="@+id/eventName_label"
                 style="@style/LabelAccent.left"
-                android:text="Give us a cool title" />
+                android:text="Make up a title" />
             <EditText
                 android:id="@+id/eventName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"/>
+                android:layout_marginRight="30dp"
+                android:hint="make it seem cooler than it is :)"/>
 
             <TextView
                 android:id="@+id/eventDateTime_label"
@@ -107,6 +108,15 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:hint="1234 Farm st."/>
+
+            <fragment
+                android:id="@+id/place_autocomplete_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+                />
 
             <Button
                 android:id="@+id/createEvent_submit"

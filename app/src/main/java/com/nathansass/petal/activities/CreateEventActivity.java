@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,10 @@ import android.widget.Toast;
 
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.nathansass.petal.R;
 import com.nathansass.petal.data.ServerRequests;
 import com.nathansass.petal.data.UserLocalStore;
@@ -65,6 +70,32 @@ public class CreateEventActivity extends AppCompatActivity {
 
         showDatepickerOnFocus();
 
+        addressAutocompleteWidget();
+
+    }
+
+    public void addressAutocompleteWidget() {
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                // TODO: Get info about the selected place.
+
+                Toast toast = Toast.makeText(context,  "Place name: " + place.getName(), Toast.LENGTH_LONG);
+                toast.show();
+                Log.i(TAG, "Place: " + place.getName());
+            }
+
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: " + status);
+                Toast toast = Toast.makeText(context, "An error occurent with getting the place", Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
     }
 
     public void showDatepickerOnFocus() {
