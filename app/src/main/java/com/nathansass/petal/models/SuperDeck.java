@@ -14,10 +14,7 @@ import java.util.Random;
 
 /* This is never used directly, only needed to instatiate other classes */
 public class SuperDeck {
-
-//    private static SuperDeck mInstance  = null;
-//    These functions probably do not need to be static
-//    Change this to not be singleton, then have singleton things that instantiate it.
+    public static final String TAG = SuperDeck.class.getSimpleName();
 
     private List<EventCard> mAllDeck = null;
 

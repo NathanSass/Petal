@@ -9,44 +9,57 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCDwz6lleSW3uW1WU27CyT0OQICq0stgXk"/>
+
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activities.CreateEventActivity"
             android:label="Create a new event">
         </activity>
+
         <activity
             android:name=".activities.LikedEventsListActivity"
             android:label="Schedule">
         </activity>
+
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login">
         </activity>
+
         <activity
             android:name=".activities.RegisterActivity"
             android:label="@string/title_activity_register">
         </activity>
+
         <activity
             android:name=".activities.ChooseEventsActivity"
             android:label="@string/title_activity_choose_events">
         </activity>
+
         <activity
             android:name=".activities.AccountActivity"
             android:label="@string/title_activity_account"
             android:theme="@style/AppTheme">
         </activity>
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCDwz6lleSW3uW1WU27CyT0OQICq0stgXk"
-            />
+
+        <activity
+            android:name=".activities.EventDetailsActivity"
+            android:label="@string/title_activity_event_details"
+            android:theme="@style/AppTheme">
+        </activity>
+
     </application>
 
 </manifest>

@@ -98,8 +98,10 @@ public class LikedEventsListActivity extends AppCompatActivity implements Adapte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        // Create a find by id method in the deck
-        Toast.makeText(getApplicationContext(), "You clicked on position : " + position + " and id : " + id, Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, EventDetailsActivity.class);
+        intent.putExtra("eventPosition", position + "");
+        startActivity(intent);
+
     }
 }
 

@@ -1,0 +1,16 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".activities.EventDetailsActivity">
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"/>
+    <include
+        android:id="@+id/eventDetails"
+        android:layout_below="@+id/tool_bar"
+        layout="@layout/partial_event_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</RelativeLayout>

@@ -16,10 +16,8 @@ import android.widget.Toast;
 import com.nathansass.petal.R;
 import com.nathansass.petal.data.ServerRequests;
 import com.nathansass.petal.data.UserLocalStore;
-import com.nathansass.petal.interfaces.GetEventsCallback;
 import com.nathansass.petal.interfaces.GetImageCallback;
 import com.nathansass.petal.interfaces.GetImageURLSCallback;
-import com.nathansass.petal.interfaces.GetLikedEventsCallback;
 import com.nathansass.petal.interfaces.PostUsersEventsCallback;
 import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.EventDeck;
@@ -65,10 +63,6 @@ public class ChooseEventsActivity extends AppCompatActivity {
         /* UI components */
         eventBanner = (ImageView) findViewById(R.id.eventBanner);
 
-         /* Instantiate different decks */
-        EventDeck.get();
-        LikedDeck.get();
-
         /* Get user data for the logged in user */
         mUserLocalStore = new UserLocalStore(this);
         currentUser     = mUserLocalStore.getLoggedInUser();
@@ -77,31 +71,9 @@ public class ChooseEventsActivity extends AppCompatActivity {
         context  = getApplicationContext();
         duration = Toast.LENGTH_SHORT;
 
-        /* On first instantiation: pulls in data to populate the event cards */
-        if ( EventDeck.get().getDeck().isEmpty() ) {
-            getDataFromServer();
-        } else {
-            updateEventCardUI();
-        }
+        updateEventCardUI();
     }
 
-    public void getDataFromServer() {
-        ServerRequests serverRequests = new ServerRequests(this);
-        serverRequests.fetchEventDataInBackground(currentUser, new GetEventsCallback() {
-            @Override
-            public void done(EventDeck returnedEventDeck) {
-
-                updateEventCardUI();
-
-            }
-        });
-        serverRequests.fetchLikedEventsDataInBackground(currentUser, new GetLikedEventsCallback() {
-            @Override
-            public void done(LikedDeck returnedLikedDeck) {
-                // Nothing needs to be done here
-            }
-        });
-    }
 
     public void eventSkipButtonClick(View view) {
         // TODO: delete event when skip is clicked

@@ -22,6 +22,10 @@ public class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /* By clearing the decks on every main entry, it will ensure new data */
+        LikedDeck.get().clearDeck();
+        EventDeck.get().clearDeck();
+
         userLocalStore = new UserLocalStore(this);
     }
 
@@ -32,15 +36,7 @@ public class MainActivity extends AppCompatActivity  {
         if ( authenticate() ) {
             currentUser = userLocalStore.getLoggedInUser();
 
-            if ( EventDeck.get().getDeck().isEmpty() ) {
-
-                getDataFromServerThenRouteToChooseEvents();
-
-            } else {
-
-                startActivity(new Intent(MainActivity.this, ChooseEventsActivity.class));
-
-            }
+            getDataFromServerThenRouteToChooseEvents();
 
         } else {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));

@@ -7,6 +7,8 @@ import org.json.JSONObject;
  * Created by nathansass on 2/1/16.
  */
 public class EventCard {
+    public static final String TAG = EventCard.class.getSimpleName();
+
     public String mTitle;
     public String street;
     public int id;

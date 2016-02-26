@@ -13,4 +13,5 @@
     <string name="title_activity_register">Register</string>
     <string name="title_activity_choose_events">ChooseEvents</string>
     <string name="title_activity_account">Account</string>
+    <string name="title_activity_event_details">Event Details</string>
 </resources>
