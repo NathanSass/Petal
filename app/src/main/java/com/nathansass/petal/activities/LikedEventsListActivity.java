@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ import com.nathansass.petal.models.User;
 /**
  * Created by nathansass on 2/4/16.
  */
-public class LikedEventsListActivity extends AppCompatActivity {
+public class LikedEventsListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     public static final String TAG = LikedEventsListActivity.class.getSimpleName();
     Context context;
     int duration;
@@ -57,6 +58,9 @@ public class LikedEventsListActivity extends AppCompatActivity {
         myList   = (ListView) findViewById(R.id.likedEvents_listView);
         mAdapter = new LikedEventsAdapter(this);
         myList.setAdapter(mAdapter);
+
+        /* Set listener to Launch Event details page*/
+        myList.setOnItemClickListener(this);
     }
 
     @Override
@@ -90,9 +94,16 @@ public class LikedEventsListActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_liked_events, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        // Create a find by id method in the deck
+        Toast.makeText(getApplicationContext(), "You clicked on position : " + position + " and id : " + id, Toast.LENGTH_LONG).show();
+    }
 }
 
-class LikedEventsAdapter extends BaseAdapter{
+class LikedEventsAdapter extends BaseAdapter {
 
     Context mContext;
 

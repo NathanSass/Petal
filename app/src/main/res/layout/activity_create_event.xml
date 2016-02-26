@@ -98,17 +98,23 @@
                 android:ems="10"/>
 
             <TextView
+                android:id="@+id/eventSize_label"
+                style="@style/LabelAccent.left"
+                android:text="How many folks are you expectin'?" />
+            <EditText
+                android:id="@+id/eventSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:maxLength="5"
+                android:hint="A rough number is fine"/>
+
+            <TextView
                 android:id="@+id/eventAddress_Label"
                 style="@style/LabelAccent.left"
                 android:text="Address please" />
-            <EditText
-                android:id="@+id/eventAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:hint="1234 Farm st."/>
-
             <fragment
                 android:id="@+id/place_autocomplete_fragment"
                 android:layout_width="match_parent"

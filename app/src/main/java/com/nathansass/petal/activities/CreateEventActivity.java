@@ -18,6 +18,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.model.LatLng;
 import com.nathansass.petal.R;
 import com.nathansass.petal.data.ServerRequests;
 import com.nathansass.petal.data.UserLocalStore;
@@ -82,8 +83,8 @@ public class CreateEventActivity extends AppCompatActivity {
             @Override
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
-
-                Toast toast = Toast.makeText(context,  "Place name: " + place.getName(), Toast.LENGTH_LONG);
+                LatLng latLng = place.getLatLng();
+                Toast toast   = Toast.makeText(context,  "Place name: " + place.getName() + " latlng: " + latLng, Toast.LENGTH_LONG);
                 toast.show();
                 Log.i(TAG, "Place: " + place.getName());
             }
