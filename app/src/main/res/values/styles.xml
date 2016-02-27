@@ -51,7 +51,7 @@
 
     <!-- Paragraph text on light background-->
     <style name="paragraphText.Left.Light" parent="paragraphText.Left">
-        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColor">@color/ColorWhite</item>
         <item name="android:layout_marginTop">0dp</item>
     </style>
 
@@ -80,11 +80,11 @@
 
     <!-- Emphasized Text on Dark Background-->
     <style name="emphasizedContent.Left.Light" parent="emphasizedContent.Left">
-        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColor">@color/ColorWhite</item>
     </style>
 
     <style name="emphasizedContent.Right.Light" parent="emphasizedContext.Right">
-        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColor">@color/ColorWhite</item>
     </style>
 
 

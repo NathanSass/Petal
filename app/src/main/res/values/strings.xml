@@ -14,4 +14,7 @@
     <string name="title_activity_choose_events">ChooseEvents</string>
     <string name="title_activity_account">Account</string>
     <string name="title_activity_event_details">Event Details</string>
+
+    <string name="action_eventDetails_attending">attending</string>
+    <string name="action_eventDetails_notAttending">not attending</string>
 </resources>

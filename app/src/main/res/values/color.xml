@@ -4,4 +4,7 @@
     <color name="ColorPrimaryDark">#0C92B2</color>
 
     <color name="ColorLabelHeading">#00B9E6</color>
+    <color name="ColorDeleteRed">#FF217B</color>
+    <color name="ColorPositiveGreen">#50E3C2</color>
+    <color name="ColorWhite">#ffffff</color>
 </resources>

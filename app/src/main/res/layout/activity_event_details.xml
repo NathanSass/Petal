@@ -13,4 +13,34 @@
         layout="@layout/partial_event_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2.0"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        android:layout_marginBottom="@dimen/default_margin">
+
+        <Button
+            android:id="@+id/deleteEventButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="delete event"
+            android:layout_weight="1.0"
+            android:layout_marginRight="@dimen/default_margin"
+            android:textColor="@color/ColorDeleteRed"/>
+
+        <Button
+            android:id="@+id/attendEventButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="attending"
+            android:layout_weight="1.0"
+            android:textColor="@color/ColorPositiveGreen"
+            android:layout_marginLeft="@dimen/default_margin"/>
+
+    </LinearLayout>
 </RelativeLayout>
