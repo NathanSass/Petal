@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.nathansass.petal.R;
 import com.nathansass.petal.data.ServerRequests;
 import com.nathansass.petal.data.UserLocalStore;
-import com.nathansass.petal.interfaces.PostUsersEventsCallback;
+import com.nathansass.petal.interfaces.PutEventAttendingCallback;
 import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.EventDeck;
 import com.nathansass.petal.models.LikedDeck;
@@ -106,7 +106,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 LikedDeck.get().removeEvent(currentEventCard);
                 EventDeck.get().addEvent(currentEventCard);
 
-                serverRequests.storeUsersEventsDataInBackground(currentUser, currentEventCard, attending, new PostUsersEventsCallback() {
+                serverRequests.storeEventAttendDataInBackground(currentUser, currentEventCard, attending, new PutEventAttendingCallback() {
                     @Override
                     public void done(Void returnedRecordId) {
                     /* Nothing needs to be done */

@@ -18,7 +18,7 @@ import com.nathansass.petal.data.ServerRequests;
 import com.nathansass.petal.data.UserLocalStore;
 import com.nathansass.petal.interfaces.GetImageCallback;
 import com.nathansass.petal.interfaces.GetImageURLSCallback;
-import com.nathansass.petal.interfaces.PostUsersEventsCallback;
+import com.nathansass.petal.interfaces.PutEventAttendingCallback;
 import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.EventDeck;
 import com.nathansass.petal.models.LikedDeck;
@@ -140,7 +140,7 @@ public class ChooseEventsActivity extends AppCompatActivity {
             LikedDeck.get().addEvent(mCurrentEventCard);
 
             ServerRequests serverRequests = new ServerRequests(this);
-            serverRequests.storeUsersEventsDataInBackground(currentUser, mCurrentEventCard, true, new PostUsersEventsCallback() {
+            serverRequests.storeEventAttendDataInBackground(currentUser, mCurrentEventCard, true, new PutEventAttendingCallback() {
                 @Override
                 public void done(Void returnedRecordId) {
                     /* Nothing needs to be done */

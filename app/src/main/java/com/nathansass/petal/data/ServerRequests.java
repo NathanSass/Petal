@@ -13,7 +13,7 @@ import com.nathansass.petal.interfaces.GetImageCallback;
 import com.nathansass.petal.interfaces.GetImageURLSCallback;
 import com.nathansass.petal.interfaces.GetUserCallback;
 import com.nathansass.petal.interfaces.PostEventCallback;
-import com.nathansass.petal.interfaces.PostUsersEventsCallback;
+import com.nathansass.petal.interfaces.PutEventAttendingCallback;
 import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.EventDeck;
 import com.nathansass.petal.models.LikedDeck;
@@ -72,8 +72,8 @@ public class ServerRequests {
         new StoreEventDataAsyncTask(currentUser, eventCard, eventCallback).execute();
     }
 
-    public void storeUsersEventsDataInBackground(User currentUser, EventCard eventCard, Boolean attending, PostUsersEventsCallback callback){
-        new StoreUsersEventsDataAsyncTask(currentUser, eventCard, attending, callback).execute();
+    public void storeEventAttendDataInBackground(User currentUser, EventCard eventCard, Boolean attending, PutEventAttendingCallback callback){
+        new StoreEventAttendDataAsyncTask(currentUser, eventCard, attending, callback).execute();
     }
 
     public void fetchImageInBackground(String url, GetImageCallback callback){
@@ -177,15 +177,15 @@ public class ServerRequests {
 
     }
 
-    /* Store UsersEvents Relationship Data*/
-    public class StoreUsersEventsDataAsyncTask extends AsyncTask<Void, Void, Void> {
+    /* Store whether a user is attending an event or not */
+    public class StoreEventAttendDataAsyncTask extends AsyncTask<Void, Void, Void> {
 
         User currentUser;
         EventCard eventCard;
-        PostUsersEventsCallback callback;
+        PutEventAttendingCallback callback;
         int attending;
 
-        public StoreUsersEventsDataAsyncTask(User currentUser, EventCard eventCard, Boolean attending, PostUsersEventsCallback callback) {
+        public StoreEventAttendDataAsyncTask(User currentUser, EventCard eventCard, Boolean attending, PutEventAttendingCallback callback) {
             this.currentUser = currentUser;
             this.eventCard   = eventCard;
             this.callback    = callback;
