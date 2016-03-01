@@ -6,5 +6,5 @@ package com.nathansass.petal.interfaces;
 public interface PostUsersEventsCallback {
     /* These are the same cards that were originally sent */
     /* Possible should return a boolean */
-    void done(int returnedRecordId);
+    void done(Void returnedRecordId);
 }

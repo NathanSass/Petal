@@ -23,9 +23,7 @@ import com.nathansass.petal.R;
 import com.nathansass.petal.data.ServerRequests;
 import com.nathansass.petal.data.UserLocalStore;
 import com.nathansass.petal.interfaces.PostEventCallback;
-import com.nathansass.petal.interfaces.PostUsersEventsCallback;
 import com.nathansass.petal.models.EventCard;
-import com.nathansass.petal.models.LikedDeck;
 import com.nathansass.petal.models.User;
 
 import org.json.JSONException;
@@ -180,31 +178,10 @@ public class CreateEventActivity extends AppCompatActivity {
     /* Saves event to the DB, creates association in UsersEvents */
     public void saveEvent(final EventCard newEvent) {
         final ServerRequests serverRequests = new ServerRequests(this);
-        serverRequests.storeEventDataInBackground(newEvent, new PostEventCallback() {
+        serverRequests.storeEventDataInBackground(currentUser, newEvent, new PostEventCallback() {
             @Override
             public void done(final EventCard returnedEventCard) {
-                /* As soon as the event is saved -
-                * the DB creates the associating that
-                * the User Created the event and is attending it.
-                * */
-
-                serverRequests.storeUsersEventsDataInBackground(currentUser, returnedEventCard, true, true, new PostUsersEventsCallback() {
-                    @Override
-                    public void done(int returnedRecordId) {
-
-                        CharSequence txt;
-                        if (returnedRecordId > 0) {
-                            LikedDeck.get().addEvent(newEvent);
-                            txt = "Added: " + returnedEventCard.mTitle;
-
-                        } else {
-                            txt = "Error adding new event";
-                        }
-                        Toast toast = Toast.makeText(context, txt, duration);
-                        toast.show();
-                    }
-                });
-
+                /* Event is stored & association is created with the user who created the event */
             }
         });
     }

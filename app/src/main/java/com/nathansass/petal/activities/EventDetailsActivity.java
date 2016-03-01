@@ -14,8 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nathansass.petal.R;
+import com.nathansass.petal.data.ServerRequests;
+import com.nathansass.petal.data.UserLocalStore;
+import com.nathansass.petal.interfaces.PostUsersEventsCallback;
 import com.nathansass.petal.models.EventCard;
+import com.nathansass.petal.models.EventDeck;
 import com.nathansass.petal.models.LikedDeck;
+import com.nathansass.petal.models.User;
 
 public class EventDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = EventDetailsActivity.class.getSimpleName();
@@ -28,6 +33,10 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
     Button bDeleteEvent, bAttendEvent;
     Boolean attending;
+
+    ServerRequests serverRequests;
+    UserLocalStore userLocalStore;
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +52,13 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
+        /* App level things */
+        serverRequests = new ServerRequests(this);
+        userLocalStore = new UserLocalStore(this);
+        currentUser    = userLocalStore.getLoggedInUser();
+
         /* Toast Things*/
-        context = getApplicationContext();
+        context  = getApplicationContext();
         duration = Toast.LENGTH_SHORT;
 
         /* Find things */
@@ -88,6 +102,16 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 bAttendEvent.setTextColor(color);
 
                 Log.v(TAG, "attend button clicked");
+
+                LikedDeck.get().removeEvent(currentEventCard);
+                EventDeck.get().addEvent(currentEventCard);
+
+                serverRequests.storeUsersEventsDataInBackground(currentUser, currentEventCard, attending, new PostUsersEventsCallback() {
+                    @Override
+                    public void done(Void returnedRecordId) {
+                    /* Nothing needs to be done */
+                    }
+                });
                 break;
         }
     }

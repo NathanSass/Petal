@@ -68,12 +68,12 @@ public class ServerRequests {
         new FetchEventDataAsyncTask(currentUser, callback).execute();
     }
 
-    public void storeEventDataInBackground(EventCard eventCard, PostEventCallback eventCallback) {
-        new StoreEventDataAsyncTask(eventCard, eventCallback).execute();
+    public void storeEventDataInBackground(User currentUser, EventCard eventCard, PostEventCallback eventCallback) {
+        new StoreEventDataAsyncTask(currentUser, eventCard, eventCallback).execute();
     }
 
-    public void storeUsersEventsDataInBackground(User currentUser, EventCard eventCard, Boolean created, Boolean attending, PostUsersEventsCallback callback){
-        new StoreUsersEventsDataAsyncTask(currentUser, eventCard, created, attending, callback).execute();
+    public void storeUsersEventsDataInBackground(User currentUser, EventCard eventCard, Boolean attending, PostUsersEventsCallback callback){
+        new StoreUsersEventsDataAsyncTask(currentUser, eventCard, attending, callback).execute();
     }
 
     public void fetchImageInBackground(String url, GetImageCallback callback){
@@ -178,23 +178,19 @@ public class ServerRequests {
     }
 
     /* Store UsersEvents Relationship Data*/
-    public class StoreUsersEventsDataAsyncTask extends AsyncTask<Void, Void, Integer> {
+    public class StoreUsersEventsDataAsyncTask extends AsyncTask<Void, Void, Void> {
 
         User currentUser;
         EventCard eventCard;
         PostUsersEventsCallback callback;
-        int created, attending;
+        int attending;
 
-        public StoreUsersEventsDataAsyncTask(User currentUser, EventCard eventCard, Boolean created, Boolean attending, PostUsersEventsCallback callback) {
+        public StoreUsersEventsDataAsyncTask(User currentUser, EventCard eventCard, Boolean attending, PostUsersEventsCallback callback) {
             this.currentUser = currentUser;
             this.eventCard   = eventCard;
             this.callback    = callback;
-            this.created     = 0;
             this.attending   = 0;
 
-            if (created) {
-                this.created = 1;
-            }
 
             if (attending) {
                 this.attending = 1;
@@ -202,19 +198,17 @@ public class ServerRequests {
         }
 
         @Override
-        protected Integer doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
 
             try {
-                URL url = new URL(SERVER_ADDRESS + "PostUsersEventsData.php");
+                URL url = new URL(PETAL_API_ADDRESS + "/users/events/" + currentUser.id);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("POST");
+                conn.setRequestMethod("PUT");
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
 
 
-                Uri.Builder builder = new Uri.Builder().appendQueryParameter("user_id", currentUser.id + "")
-                                                        .appendQueryParameter("event_id", eventCard.id + "")
-                                                        .appendQueryParameter("created", created + "")
-                                                        .appendQueryParameter("attending", attending + "");
+                Uri.Builder builder = new Uri.Builder().appendQueryParameter("event_id", eventCard.id + "")
+                                                        .appendQueryParameter("isAttending", attending + "");
 
                 String query = builder.build().getEncodedQuery();
                 OutputStream os = conn.getOutputStream();
@@ -227,43 +221,43 @@ public class ServerRequests {
 
                 InputStream in  = new BufferedInputStream(conn.getInputStream());
                 String response = IOUtils.toString(in, "UTF-8");
-                int lastId = Integer.parseInt(response);
-                return lastId;
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            return -1;
-
+            return null;
         }
 
         @Override
-        protected void onPostExecute(Integer returnedRecordId) {
-            super.onPostExecute(returnedRecordId);
-            callback.done(returnedRecordId);
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            callback.done(aVoid);
         }
     }
 
-    /* Store Event Card Data */
+    /* Store Event Card Data & Create Association with the user who created the event */
     public class StoreEventDataAsyncTask extends AsyncTask<Void, Void, EventCard> {
         PostEventCallback eventCallback;
         EventCard eventCard;
+        User currentUser;
 
-        public StoreEventDataAsyncTask(EventCard eventCard, PostEventCallback eventCallback) {
+        public StoreEventDataAsyncTask(User currentUser, EventCard eventCard, PostEventCallback eventCallback) {
             this.eventCard     = eventCard;
             this.eventCallback = eventCallback;
+            this.currentUser = currentUser;
         }
 
         @Override
         protected EventCard doInBackground(Void... params) {
             try {
-                URL url = new URL(SERVER_ADDRESS + "PostEventData.php");
+                URL url = new URL(PETAL_API_ADDRESS + "/events");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
 
-                Uri.Builder builder = new Uri.Builder().appendQueryParameter("title", eventCard.mTitle)
+                Uri.Builder builder = new Uri.Builder().appendQueryParameter("user_id", currentUser.id)
+                                                        .appendQueryParameter("title", eventCard.mTitle)
                                                         .appendQueryParameter("street", eventCard.street);
                 String query = builder.build().getEncodedQuery();
                 OutputStream os = conn.getOutputStream();
@@ -277,14 +271,18 @@ public class ServerRequests {
                 InputStream in  = new BufferedInputStream(conn.getInputStream());
                 String response = IOUtils.toString(in, "UTF-8");
 
-                String lastEventID = response;
+                JSONObject jResponse        = new JSONObject(response);
 
-//                eventCard.setId(lastEventID);
-                eventCard.setId("addeqweqweqwe");
+                String lastEventID          = jResponse.getJSONObject("success")
+                                                        .getString("_id");
+
+                eventCard.setId(lastEventID);
 
                 return eventCard;
 
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
             return null;

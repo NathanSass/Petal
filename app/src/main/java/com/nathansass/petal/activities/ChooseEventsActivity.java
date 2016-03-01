@@ -28,8 +28,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Random;
 
 public class ChooseEventsActivity extends AppCompatActivity {
@@ -142,15 +140,10 @@ public class ChooseEventsActivity extends AppCompatActivity {
             LikedDeck.get().addEvent(mCurrentEventCard);
 
             ServerRequests serverRequests = new ServerRequests(this);
-            serverRequests.storeUsersEventsDataInBackground(currentUser, mCurrentEventCard, false, true, new PostUsersEventsCallback() {
+            serverRequests.storeUsersEventsDataInBackground(currentUser, mCurrentEventCard, true, new PostUsersEventsCallback() {
                 @Override
-                public void done(int returnedRecordId) {
-                    CharSequence txt;
-                    if (returnedRecordId < 1) {
-                        txt = "Error Liking: " + mCurrentEventCard.mTitle;
-                        Toast toast = Toast.makeText(context, txt, duration);
-                        toast.show();
-                    }
+                public void done(Void returnedRecordId) {
+                    /* Nothing needs to be done */
                 }
             });
         }
@@ -173,7 +166,6 @@ public class ChooseEventsActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_createEvent) {
 
             Intent intent = new Intent(this, CreateEventActivity.class);
@@ -196,35 +188,4 @@ public class ChooseEventsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /* DEPRECATED: Methods for getting Event Info from local JSON File*/
-    public void getDataFromLocalJSONFile() {
-        try {
-            String activityString = loadJSONFromAsset("activities");
-            JSONObject obj        = new JSONObject(activityString);
-            JSONArray events_arr  = obj.getJSONArray("events");
-
-            EventDeck.get().buildEventDeck(events_arr);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public String loadJSONFromAsset(String filePath) {
-        String json;
-        try {
-            InputStream is = getAssets().open(filePath);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
-    /* */
 }
