@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.nathansass.petal.data.ServerRequests;
 import com.nathansass.petal.data.UserLocalStore;
 import com.nathansass.petal.interfaces.GetEventsCallback;
-import com.nathansass.petal.interfaces.GetLikedEventsCallback;
 import com.nathansass.petal.models.EventDeck;
 import com.nathansass.petal.models.LikedDeck;
 import com.nathansass.petal.models.User;
@@ -52,11 +51,6 @@ public class MainActivity extends AppCompatActivity  {
                 /* When the events are back, it starts the event so it feels non-laggy */
                 startActivity(new Intent(MainActivity.this, ChooseEventsActivity.class));
             }
-        });
-        /* Nothing needs to be done in the callback, maybe displaying an error message or retrying if a fail happens */
-        serverRequests.fetchLikedEventsDataInBackground(currentUser, new GetLikedEventsCallback() {
-            @Override
-            public void done(LikedDeck returnedLikedDeck) {}
         });
     }
 

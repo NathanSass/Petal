@@ -9,9 +9,8 @@ import org.json.JSONObject;
 public class EventCard {
     public static final String TAG = EventCard.class.getSimpleName();
 
-    public String mTitle;
+    public String mTitle, id;
     public String street;
-    public int id;
 
     public EventCard(JSONObject event_obj) {
 
@@ -20,11 +19,11 @@ public class EventCard {
             mTitle = event_obj.getString("title");
             street = "123 Farm St.";
 
-            if (event_obj.has("id")) {
-                id  = Integer.parseInt(event_obj.getString("id"));
+            if (event_obj.has("_id")) {
+                id  = event_obj.getString("_id");
                 setId(id);
             } else {
-                setId(-1);
+                setId("");
             }
 
         } catch (JSONException e) {
@@ -32,7 +31,7 @@ public class EventCard {
         }
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

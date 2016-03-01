@@ -11,7 +11,6 @@ import android.util.Log;
 import com.nathansass.petal.interfaces.GetEventsCallback;
 import com.nathansass.petal.interfaces.GetImageCallback;
 import com.nathansass.petal.interfaces.GetImageURLSCallback;
-import com.nathansass.petal.interfaces.GetLikedEventsCallback;
 import com.nathansass.petal.interfaces.GetUserCallback;
 import com.nathansass.petal.interfaces.PostEventCallback;
 import com.nathansass.petal.interfaces.PostUsersEventsCallback;
@@ -44,6 +43,7 @@ public class ServerRequests {
     ProgressDialog progressDialog;
     public static final int CONNECTION_TIMEOUT = 1000 * 15;
     public static final String SERVER_ADDRESS = "http://nathansass.comxa.com/";
+    public static final String PETAL_API_ADDRESS = "http://" + "172.16.42.3" + ":8080/api";
     public static final String TAG = ServerRequests.class.getSimpleName();
 
     public ServerRequests(Context context) {
@@ -76,10 +76,6 @@ public class ServerRequests {
         new StoreUsersEventsDataAsyncTask(currentUser, eventCard, created, attending, callback).execute();
     }
 
-    public void fetchLikedEventsDataInBackground(User currentUser,GetLikedEventsCallback callback){
-        new FetchLikedEventsDataAsyncTask(currentUser, callback).execute();
-    }
-
     public void fetchImageInBackground(String url, GetImageCallback callback){
         new FetchImageAsyncTask(url, callback).execute();
     }
@@ -88,6 +84,7 @@ public class ServerRequests {
         new FetchImageUrlsAsyncTask(searchTags, callback).execute();
     }
 
+    /* Fetch Image Urls */
     public class FetchImageUrlsAsyncTask extends AsyncTask<Void, Void, JSONArray> {
         String searchTags;
         GetImageURLSCallback callback;
@@ -178,59 +175,6 @@ public class ServerRequests {
         }
 
 
-    }
-
-    /* Fetch Liked Events Data */
-    public class FetchLikedEventsDataAsyncTask extends AsyncTask<Void, Void, LikedDeck> {
-        GetLikedEventsCallback callback;
-        User currentUser;
-
-        public FetchLikedEventsDataAsyncTask(User currentUser, GetLikedEventsCallback callback) {
-            this.currentUser = currentUser;
-            this.callback    = callback;
-        }
-
-        @Override
-        protected LikedDeck doInBackground(Void... params) {
-            try {
-                URL url = new URL(SERVER_ADDRESS + "FetchLikedEventsData.php");
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("POST");
-                conn.setConnectTimeout(CONNECTION_TIMEOUT);
-
-                Uri.Builder builder = new Uri.Builder().appendQueryParameter("user_id", currentUser.id + "");
-
-                String query = builder.build().getEncodedQuery();
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-                writer.write(query);
-                writer.close();
-                os.close();
-
-                conn.connect();
-
-                InputStream in  = new BufferedInputStream(conn.getInputStream());
-                String response = IOUtils.toString(in, "UTF-8");
-
-                JSONArray jResponse = new JSONArray(response);
-
-                LikedDeck.get().buildEventDeck(jResponse);
-
-                return LikedDeck.get();
-
-            } catch (JSONException | IOException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(LikedDeck likedDeck) {
-            super.onPostExecute(likedDeck);
-            callback.done(likedDeck);
-        }
     }
 
     /* Store UsersEvents Relationship Data*/
@@ -333,9 +277,10 @@ public class ServerRequests {
                 InputStream in  = new BufferedInputStream(conn.getInputStream());
                 String response = IOUtils.toString(in, "UTF-8");
 
-                int lastEventID = Integer.parseInt(response);
+                String lastEventID = response;
 
-                eventCard.setId(lastEventID);
+//                eventCard.setId(lastEventID);
+                eventCard.setId("addeqweqweqwe");
 
                 return eventCard;
 
@@ -366,28 +311,22 @@ public class ServerRequests {
         protected Void doInBackground(Void... params) {
 
             try {
-                URL url = new URL(SERVER_ADDRESS + "FetchEventData.php");
+                URL url = new URL(PETAL_API_ADDRESS + "/events/users/" + currentUser.id);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("POST");
+                conn.setRequestMethod("GET");
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
-
-                Uri.Builder builder = new Uri.Builder().appendQueryParameter("user_id", currentUser.id + "");
-
-                String query = builder.build().getEncodedQuery();
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-                writer.write(query);
-                writer.close();
-                os.close();
-
                 conn.connect();
 
                 InputStream in  = new BufferedInputStream(conn.getInputStream());
                 String response = IOUtils.toString(in, "UTF-8");
 
-                JSONArray jResponse = new JSONArray(response);
+                JSONObject jResponse = new JSONObject(response);
 
-                EventDeck.get().buildEventDeck(jResponse);
+                JSONArray userAttending = jResponse.getJSONArray("userAttending");
+                JSONArray newEvents     = jResponse.getJSONArray("newEvents");
+
+                EventDeck.get().buildEventDeck(newEvents);
+                LikedDeck.get().buildEventDeck(userAttending);
 
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
@@ -417,7 +356,7 @@ public class ServerRequests {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                URL url = new URL(SERVER_ADDRESS + "Register.php");
+                URL url = new URL(PETAL_API_ADDRESS + "/users");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
 
@@ -436,12 +375,10 @@ public class ServerRequests {
 
                 conn.connect();
 
-//For debugging
                 InputStream in = new BufferedInputStream(conn.getInputStream());
 
                 String response = IOUtils.toString(in, "UTF-8");
-                System.out.println(response);
-//
+                Log.v(TAG, response);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -474,9 +411,9 @@ public class ServerRequests {
         protected User doInBackground(Void... params) {
             User returnedUser;
             try {
-                URL url = new URL(SERVER_ADDRESS + "FetchUserData.php");
+                URL url = new URL(PETAL_API_ADDRESS + "/users");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("POST");
+                conn.setRequestMethod("PUT");
 
                 Uri.Builder builder = new Uri.Builder().appendQueryParameter("username", user.username)
                                                         .appendQueryParameter("password", user.password);
@@ -494,6 +431,7 @@ public class ServerRequests {
                 InputStream in = new BufferedInputStream(conn.getInputStream());
 
                 String response = IOUtils.toString(in, "UTF-8");
+
                 JSONObject jResponse = new JSONObject(response);
 
                 if (jResponse.length() == 0) {
@@ -501,11 +439,9 @@ public class ServerRequests {
                 } else {
                     String name = jResponse.getString("name");
                     int age     = jResponse.getInt("age");
-                    int id      = jResponse.getInt("id");
+                    String id   = jResponse.getString("_id");
 
                     returnedUser = new User(id, name, age, user.username, user.password);
-
-
                 }
 
                 return returnedUser;
@@ -513,7 +449,6 @@ public class ServerRequests {
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
-
 
             return null;
         }
