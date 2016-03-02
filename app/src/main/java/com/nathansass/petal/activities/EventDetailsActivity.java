@@ -1,9 +1,8 @@
 package com.nathansass.petal.activities;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -32,7 +31,6 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private ActionBar actionBar;
 
     Button bDeleteEvent, bAttendEvent;
-    Boolean attending;
 
     ServerRequests serverRequests;
     UserLocalStore userLocalStore;
@@ -44,7 +42,6 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
         String positionS = (String) getIntent().getSerializableExtra("eventPosition");
         int position = Integer.parseInt(positionS);
-        attending = true;
 
         // TODO: Change view depending if it is for the person who made it attending
         setContentView(R.layout.activity_event_details);
@@ -84,34 +81,23 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         switch (v.getId()) {
             case R.id.deleteEventButton:
                 Log.v(TAG, "delete button clicked");
+
                 break;
             case R.id.attendEventButton:
-                CharSequence buttonText;
-                int color;
-                if (attending) {
-                    buttonText = getResources().getString(R.string.action_eventDetails_notAttending);
-                    color = Color.BLACK;
-                    attending = false;
-                } else {
-                    buttonText = getResources().getString(R.string.action_eventDetails_attending);
-                    color = ContextCompat.getColor(context, R.color.ColorPositiveGreen);
-                    attending = true;
-                }
-
-                bAttendEvent.setText(buttonText);
-                bAttendEvent.setTextColor(color);
-
-                Log.v(TAG, "attend button clicked");
 
                 LikedDeck.get().removeEvent(currentEventCard);
                 EventDeck.get().addEvent(currentEventCard);
 
-                serverRequests.storeEventAttendDataInBackground(currentUser, currentEventCard, attending, new PutEventAttendingCallback() {
+                serverRequests.storeEventAttendDataInBackground(currentUser, currentEventCard, false, new PutEventAttendingCallback() {
                     @Override
                     public void done(Void returnedRecordId) {
                     /* Nothing needs to be done */
                     }
                 });
+
+                Intent intent = new Intent(this, LikedEventsListActivity.class);
+                startActivity(intent);
+
                 break;
         }
     }
