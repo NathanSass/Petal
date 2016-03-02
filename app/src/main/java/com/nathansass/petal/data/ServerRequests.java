@@ -128,7 +128,7 @@ public class ServerRequests {
 
                 resultUrls = objResults.getJSONObject("photos").getJSONArray("photo");
 
-                Log.v(TAG, resultUrls.toString());
+//                Log.v(TAG, resultUrls.toString());
 
 
                 return resultUrls;

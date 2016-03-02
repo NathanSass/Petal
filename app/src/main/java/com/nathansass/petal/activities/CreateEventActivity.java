@@ -27,6 +27,7 @@ import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.User;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -47,18 +48,19 @@ public class CreateEventActivity extends AppCompatActivity {
     /* Datepicker */
     DateTime startDateTime, endDateTime;
     int year, month, day, hour, minute;
-    EditText dateInput;
 
     /* Address */
     Double lat, lng;
     String placeName;
     String street, city, state;
 
-    /*  */
-    int price = 5;
-    String about  = "Amazing description of an event more incredible event";
-    int eventSize = 25;
-
+    /* UI Fields */
+    EditText etEventTitle;
+    EditText etEventDuration;
+    EditText etEventPrice;
+    EditText etEventAbout;
+    EditText etEventSize;
+    EditText etEventDateTime;
 
     private Toolbar toolbar;
 
@@ -66,6 +68,14 @@ public class CreateEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+
+        /* Get UI components */
+        etEventTitle    = (EditText) findViewById(R.id.eventName);
+        etEventDuration = (EditText) findViewById(R.id.eventDuration);
+        etEventPrice    = (EditText) findViewById(R.id.eventPrice);
+        etEventAbout    = (EditText) findViewById(R.id.eventAbout);
+        etEventSize     = (EditText) findViewById(R.id.eventSize);
+        etEventDateTime = (EditText) findViewById(R.id.eventDateTime);
 
         /* Get user data for the logged in user */
         mUserLocalStore = new UserLocalStore(this);
@@ -118,9 +128,8 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     public void showDatepickerOnFocus() {
-        dateInput = (EditText) findViewById(R.id.eventDateTime);
 
-        dateInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etEventDateTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -129,7 +138,7 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-        dateInput.setOnClickListener(new View.OnClickListener() {
+        etEventDateTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDateTimeDialog();
@@ -137,14 +146,13 @@ public class CreateEventActivity extends AppCompatActivity {
         });
     }
 
-
     private void showDateTimeDialog() {
         new SlideDateTimePicker.Builder(getSupportFragmentManager())
                 .setListener(listener)
                 .setInitialDate(new Date())
                 .setMinDate(new Date())
                         //.setMaxDate(maxDate)
-                        //.setIs24HourTime(true)
+                        .setIs24HourTime(true)
                         //.setTheme(SlideDateTimePicker.HOLO_DARK)
                         //.setIndicatorColor(Color.parseColor("#990000"))
                 .build()
@@ -155,36 +163,35 @@ public class CreateEventActivity extends AppCompatActivity {
         @Override
         public void onDateTimeSet(Date date) {
             startDateTime = new DateTime(date);
-            /*
-             Save the date object;
-             change the placeholder on the thing to match;
-             */
 
-//            Calendar calendar = Calendar.getInstance();
-//            calendar.setTime(date);
-//            year  = calendar.get(calendar.YEAR);
-//            month = calendar.get(calendar.MONTH);
-//            day   = calendar.get(calendar.DAY_OF_MONTH);
-//
-//            hour      = calendar.get(calendar.HOUR_OF_DAY); //24 hour
-//            int hour2 = calendar.get(Calendar.HOUR);
-//            minute    = calendar.get(calendar.MINUTE);
-//            int amPm  = calendar.get(calendar.AM_PM);
+            LocalDate localDate   = new LocalDate(startDateTime);
+            String namedDayOfWeek = localDate.withDayOfWeek(2).dayOfWeek().getAsText();
 
+            CharSequence prettyDate = startDateTime.hourOfDay().get() + ":"
+                    + startDateTime.minuteOfHour().get() + " on "
+                    + namedDayOfWeek + " "
+                    + startDateTime.dayOfMonth().get()  + "/"
+                    + startDateTime.monthOfYear().get() + "/"
+                    + startDateTime.year().get();
+
+            etEventDateTime.setHint(prettyDate);
         }
     };
 
 
     public void createEventButtonClick(View view) {
 
-        String title = ((EditText) findViewById(R.id.eventName)).getText().toString();
+        String title  = etEventTitle.getText().toString();
+        String about  = etEventAbout.getText().toString();
+        int price     = Integer.parseInt(etEventPrice.getText().toString());
+        int eventSize = Integer.parseInt(etEventSize.getText().toString());
 
-        endDateTime = startDateTime.plusHours(2); //make event 2 hours long
+        endDateTime = startDateTime.plusHours(2);
 
-        saveEvent(new EventCard("", title, street, city, state,
+        saveEvent( new EventCard("", title, street, city, state,
                                 startDateTime, endDateTime,
                                 about, price, eventSize,
-                                lat, lng));
+                                lat, lng) );
 
         routeBackToMainPage();
 
