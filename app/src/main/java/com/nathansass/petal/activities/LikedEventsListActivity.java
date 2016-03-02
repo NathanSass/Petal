@@ -143,7 +143,7 @@ class LikedEventsAdapter extends BaseAdapter {
 
         EventCard currentCard = (EventCard) getItem(position);
         /* set the text of each field here */
-        title.setText(currentCard.mTitle);
+        title.setText(currentCard.title);
         location.setText(currentCard.street);
 
         return row;

@@ -256,9 +256,23 @@ public class ServerRequests {
                 conn.setRequestMethod("POST");
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
 
+                Log.v(TAG, "startDate " + eventCard.startDateTime.toString() + " endTime: " + eventCard.endDateTime.toString());
                 Uri.Builder builder = new Uri.Builder().appendQueryParameter("user_id", currentUser.id)
-                                                        .appendQueryParameter("title", eventCard.mTitle)
-                                                        .appendQueryParameter("street", eventCard.street);
+                        .appendQueryParameter("title", eventCard.title)
+
+                        .appendQueryParameter("street", eventCard.street)
+                        .appendQueryParameter("city", eventCard.city)
+                        .appendQueryParameter("state", eventCard.state)
+
+                        .appendQueryParameter("startDateTime", eventCard.startDateTime.toString())
+                        .appendQueryParameter("endDateTime", eventCard.endDateTime.toString())
+
+                        .appendQueryParameter("about", eventCard.about)
+                        .appendQueryParameter("price", eventCard.price + "")
+                        .appendQueryParameter("eventSize", eventCard.eventSize + "")
+
+                        .appendQueryParameter("lat", eventCard.lat + "")
+                        .appendQueryParameter("lng", eventCard.lng + "");
                 String query = builder.build().getEncodedQuery();
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));

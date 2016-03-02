@@ -124,7 +124,7 @@ public class ChooseEventsActivity extends AppCompatActivity {
 
 
 
-            eventTitle.setText(mCurrentEventCard.mTitle);
+            eventTitle.setText(mCurrentEventCard.title);
         } else {
             eventTitle.setText(R.string.deck_empty_message);
         }

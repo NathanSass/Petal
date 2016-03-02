@@ -73,7 +73,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
     public void updateEventCardUI() {
         TextView eventTitle = (TextView) findViewById(R.id.eventTitle);
-        eventTitle.setText(currentEventCard.mTitle);
+        eventTitle.setText(currentEventCard.title);
     }
 
     @Override

@@ -26,11 +26,11 @@ import com.nathansass.petal.interfaces.PostEventCallback;
 import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.User;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.joda.time.DateTime;
 
-import java.util.Calendar;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by nathansass on 2/2/16.
@@ -45,9 +45,20 @@ public class CreateEventActivity extends AppCompatActivity {
     UserLocalStore mUserLocalStore;
 
     /* Datepicker */
-    Date startDateTime;
+    DateTime startDateTime, endDateTime;
     int year, month, day, hour, minute;
     EditText dateInput;
+
+    /* Address */
+    Double lat, lng;
+    String placeName;
+    String street, city, state;
+
+    /*  */
+    int price = 5;
+    String about  = "Amazing description of an event more incredible event";
+    int eventSize = 25;
+
 
     private Toolbar toolbar;
 
@@ -80,19 +91,28 @@ public class CreateEventActivity extends AppCompatActivity {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
-                LatLng latLng = place.getLatLng();
-                Toast toast   = Toast.makeText(context,  "Place name: " + place.getName() + " latlng: " + latLng, Toast.LENGTH_LONG);
-                toast.show();
-                Log.i(TAG, "Place: " + place.getName());
+
+                placeName = (String) place.getName();     // 5021 Strathmore Ave || bob's
+
+                LatLng latLng    = place.getLatLng();            // (40.935776999999995,-81.401623)
+                String address   = (String) place.getAddress();  // 5021 Strathmore Ave, Kensington, MD 20895, USA
+
+                List<String> addressList = Arrays.asList(address.split(","));
+
+                street = addressList.get(0).trim();
+                city   = addressList.get(1).trim();
+                state  = addressList.get(2).substring(0, 3).trim();
+
+                lat = latLng.latitude;
+                lng = latLng.longitude;
+                Log.v(TAG, "street " + street + " city: " + city + " state: " + state);
+
+
             }
 
             @Override
             public void onError(Status status) {
-                // TODO: Handle the error.
-                Log.i(TAG, "An error occurred: " + status);
-                Toast toast = Toast.makeText(context, "An error occurent with getting the place", Toast.LENGTH_LONG);
-                toast.show();
+                Toast.makeText(context, "An error occurred with getting the place", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -134,42 +154,37 @@ public class CreateEventActivity extends AppCompatActivity {
     private SlideDateTimeListener listener = new SlideDateTimeListener() {
         @Override
         public void onDateTimeSet(Date date) {
-            startDateTime = date;
+            startDateTime = new DateTime(date);
             /*
              Save the date object;
              change the placeholder on the thing to match;
              */
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
-            year = calendar.get(calendar.YEAR);
-            month = calendar.get(calendar.MONTH);
-            day = calendar.get(calendar.DAY_OF_MONTH);
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.setTime(date);
+//            year  = calendar.get(calendar.YEAR);
+//            month = calendar.get(calendar.MONTH);
+//            day   = calendar.get(calendar.DAY_OF_MONTH);
+//
+//            hour      = calendar.get(calendar.HOUR_OF_DAY); //24 hour
+//            int hour2 = calendar.get(Calendar.HOUR);
+//            minute    = calendar.get(calendar.MINUTE);
+//            int amPm  = calendar.get(calendar.AM_PM);
 
-            hour = calendar.get(calendar.HOUR_OF_DAY); //24 hour
-            int hour2 = calendar.get(Calendar.HOUR);
-            minute = calendar.get(calendar.MINUTE);
-            int amPm = calendar.get(calendar.AM_PM);
-
-            Toast toast = Toast.makeText(context, "hourofDay: " + hour + " hour: " + hour2 + " minute: " + minute + " amPm: " + amPm, Toast.LENGTH_LONG);
-//            Toast toast = Toast.makeText(context, "Date: " + month + "/" + day + "/" + year, Toast.LENGTH_LONG);
-//            Toast toast = Toast.makeText(context, "Date: " + date.toString(), Toast.LENGTH_LONG);
-            toast.show();
         }
     };
 
 
     public void createEventButtonClick(View view) {
-        JSONObject obj = new JSONObject();
-        try {
-            String title = ((EditText) findViewById(R.id.eventName)).getText().toString();
-            obj.put("title", title);
 
-            saveEvent(new EventCard(obj));
+        String title = ((EditText) findViewById(R.id.eventName)).getText().toString();
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        endDateTime = startDateTime.plusHours(2); //make event 2 hours long
+
+        saveEvent(new EventCard("", title, street, city, state,
+                                startDateTime, endDateTime,
+                                about, price, eventSize,
+                                lat, lng));
 
         routeBackToMainPage();
 
