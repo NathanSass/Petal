@@ -194,7 +194,6 @@ public class CreateEventActivity extends AppCompatActivity {
                                 lat, lng) );
 
         routeBackToMainPage();
-
     }
 
     /* Saves event to the DB, creates association in UsersEvents */
