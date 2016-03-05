@@ -21,25 +21,23 @@ import com.nathansass.petal.models.EventDeck;
 import com.nathansass.petal.models.LikedDeck;
 import com.nathansass.petal.models.User;
 
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-
 public class ChooseEventsActivity extends AppCompatActivity {
 
     public static final String TAG = ChooseEventsActivity.class.getSimpleName();
     Context context;
     int duration;
-    ImageView eventBanner;
 
-    EventCard currentEvent = null;
     private Toolbar toolbar;
     private android.support.v7.app.ActionBar actionBar;
 
     UserLocalStore mUserLocalStore;
+
+    EventCard currentEvent = null;
     User currentUser;
 
+    ImageView eventBanner;
     TextView eventTitle, eventPrice, eventAddress, eventCityState,
-            eventDate, eventAbout, eventTime, eventSize;
+    eventDate, eventAbout, eventTime, eventSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +55,14 @@ public class ChooseEventsActivity extends AppCompatActivity {
 
         /* UI components */
         eventBanner    = (ImageView) findViewById(R.id.eventBanner);
-        eventAddress   = (TextView) findViewById(R.id.eventAddress);
-        eventCityState = (TextView) findViewById(R.id.eventCityState);
-        eventPrice     = (TextView) findViewById(R.id.eventPrice);
-        eventTitle     = (TextView) findViewById(R.id.eventTitle);
-        eventDate      = (TextView) findViewById(R.id.eventDate);
-        eventAbout     = (TextView) findViewById(R.id.eventAbout);
-        eventTime      = (TextView) findViewById(R.id.eventTime);
-        eventSize      = (TextView) findViewById(R.id.eventSize);
+        eventAddress   = (TextView)  findViewById(R.id.eventAddress);
+        eventCityState = (TextView)  findViewById(R.id.eventCityState);
+        eventPrice     = (TextView)  findViewById(R.id.eventPrice);
+        eventTitle     = (TextView)  findViewById(R.id.eventTitle);
+        eventDate      = (TextView)  findViewById(R.id.eventDate);
+        eventAbout     = (TextView)  findViewById(R.id.eventAbout);
+        eventTime      = (TextView)  findViewById(R.id.eventTime);
+        eventSize      = (TextView)  findViewById(R.id.eventSize);
 
 
         /* Get user data for the logged in user */
@@ -127,19 +125,14 @@ public class ChooseEventsActivity extends AppCompatActivity {
 //                }
 //            });
 
-            DateTime startDT = currentEvent.startDateTime;
-            DateTime endDT   = currentEvent.endDateTime;
-            LocalDate localDate   = new LocalDate(startDT);
-            String namedDayOfWeek = localDate.withDayOfWeek(2).dayOfWeek().getAsText();
-
-            eventAddress.setText(currentEvent.street);
-            eventCityState.setText(currentEvent.city + ", " + currentEvent.state);
-            eventPrice.setText("$" + currentEvent.price + ".00");
-            eventTitle.setText(currentEvent.title);
-            eventAbout.setText(currentEvent.about);
-            eventDate.setText( namedDayOfWeek + ", " + startDT.monthOfYear().getAsText() + " " + startDT.getDayOfMonth());
-            eventTime.setText(startDT.hourOfDay().get() + ":" + startDT.minuteOfHour().get() + " - " + endDT.hourOfDay().get() + ":" + endDT.minuteOfHour().get());
-            eventSize.setText(currentEvent.eventSize + "");
+            eventAddress.setText( currentEvent.street );
+            eventCityState.setText( currentEvent.getCityState() );
+            eventPrice.setText( currentEvent.getPrice() );
+            eventTitle.setText( currentEvent.title );
+            eventAbout.setText( currentEvent.about );
+            eventDate.setText( currentEvent.getEventStartDate() );
+            eventTime.setText( currentEvent.getEventStartTimeToEndTime() );
+            eventSize.setText( currentEvent.eventSize + "" );
         } else {
             eventTitle.setText(R.string.deck_empty_message);
         }

@@ -27,7 +27,6 @@ import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.User;
 
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -162,21 +161,16 @@ public class CreateEventActivity extends AppCompatActivity {
     private SlideDateTimeListener listener = new SlideDateTimeListener() {
         @Override
         public void onDateTimeSet(Date date) {
-            startDateTime = new DateTime(date);
 
-            LocalDate localDate   = new LocalDate(startDateTime);
-            String namedDayOfWeek = localDate.withDayOfWeek(2).dayOfWeek().getAsText();
-
-            CharSequence prettyDate = startDateTime.hourOfDay().get() + ":"
-                    + startDateTime.minuteOfHour().get() + " on "
-                    + namedDayOfWeek + " "
-                    + startDateTime.dayOfMonth().get()  + "/"
-                    + startDateTime.monthOfYear().get() + "/"
-                    + startDateTime.year().get();
-
-            etEventDateTime.setHint(prettyDate);
+            etEventDateTime.setHint(getEventDateTimeDisplay(startDateTime));
         }
     };
+
+    public String getEventDateTimeDisplay(DateTime dt) {
+        return dt.hourOfDay().get() + ":" + dt.minuteOfHour().get() + " on " + dt.dayOfMonth().get()  + "/"
+                + dt.monthOfYear().get() + "/"
+                + dt.year().get();
+    }
 
 
     public void createEventButtonClick(View view) {

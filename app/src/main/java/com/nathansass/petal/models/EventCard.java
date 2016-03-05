@@ -1,6 +1,7 @@
 package com.nathansass.petal.models;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -91,4 +92,32 @@ public class EventCard {
         this.id = id;
     }
 
+    public String getPrice() {
+        return "$" + this.price + ".00";
+    }
+
+    public String getCityState() {
+        return this.city + ", "  + this.state;
+    }
+
+    public String getDayName(DateTime date) {
+        LocalDate localDate = new LocalDate(date);
+        return localDate.withDayOfWeek(2).dayOfWeek().getAsText();
+    }
+
+    public String getEventDate(DateTime date) {
+        return  getDayName(date) + ", " + date.monthOfYear().getAsText() + " " + date.getDayOfMonth();
+    }
+
+    public String getEventStartDate() {
+        return getEventDate(this.startDateTime);
+    }
+
+    public String getEventTime(DateTime date) {
+        return date.hourOfDay().get() + ":" + date.minuteOfHour().get();
+    }
+
+    public String getEventStartTimeToEndTime() {
+        return getEventTime(this.startDateTime) + " - " + getEventTime(this.endDateTime);
+    }
 }
