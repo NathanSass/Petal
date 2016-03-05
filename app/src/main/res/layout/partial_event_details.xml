@@ -56,7 +56,7 @@
         android:text="Unit 5, 1234 Farm St."/>
 
     <TextView
-        android:id="@+id/eventAddressCityState"
+        android:id="@+id/eventCityState"
         style="@style/paragraphText.Left.Light"
         android:layout_below="@+id/eventAddress"
         android:text="Corpus Christi, TX"/>
@@ -68,7 +68,7 @@
         android:layout_alignParentTop="true"
         android:text="First Event Which Will Never Show Up"/>
     <TextView
-        android:id="@+id/eventDateTime"
+        android:id="@+id/eventDate"
         style="@style/paragraphText.Left.Light"
         android:layout_below="@+id/eventTitle"
         android:text="Saturday, April 27"/>
