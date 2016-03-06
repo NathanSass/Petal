@@ -42,8 +42,7 @@ public class ServerRequests {
 
     ProgressDialog progressDialog;
     public static final int CONNECTION_TIMEOUT = 1000 * 15;
-    public static final String SERVER_ADDRESS = "http://nathansass.comxa.com/";
-    public static final String PETAL_API_ADDRESS = "http://" + "172.16.42.3" + ":8080/api";
+    public static final String PETAL_API_ADDRESS = "http://" + "192.168.1.34" + ":8080/api";
     public static final String TAG = ServerRequests.class.getSimpleName();
 
     public ServerRequests(Context context) {
