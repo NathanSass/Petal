@@ -3,13 +3,10 @@ package com.nathansass.petal.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nathansass.petal.R;
@@ -18,10 +15,11 @@ import com.nathansass.petal.data.UserLocalStore;
 import com.nathansass.petal.interfaces.PutEventAttendingCallback;
 import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.EventDeck;
+import com.nathansass.petal.models.EventDisplayer;
 import com.nathansass.petal.models.LikedDeck;
 import com.nathansass.petal.models.User;
 
-public class ChooseEventsActivity extends AppCompatActivity {
+public class ChooseEventsActivity extends EventDisplayer {
 
     public static final String TAG = ChooseEventsActivity.class.getSimpleName();
     Context context;
@@ -34,10 +32,6 @@ public class ChooseEventsActivity extends AppCompatActivity {
 
     EventCard currentEvent = null;
     User currentUser;
-
-    ImageView eventBanner;
-    TextView eventTitle, eventPrice, eventAddress, eventCityState,
-    eventDate, eventAbout, eventTime, eventSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +47,7 @@ public class ChooseEventsActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(R.drawable.petal_logo_with_text);
 
-        /* UI components */
-        eventBanner    = (ImageView) findViewById(R.id.eventBanner);
-        eventAddress   = (TextView)  findViewById(R.id.eventAddress);
-        eventCityState = (TextView)  findViewById(R.id.eventCityState);
-        eventPrice     = (TextView)  findViewById(R.id.eventPrice);
-        eventTitle     = (TextView)  findViewById(R.id.eventTitle);
-        eventDate      = (TextView)  findViewById(R.id.eventDate);
-        eventAbout     = (TextView)  findViewById(R.id.eventAbout);
-        eventTime      = (TextView)  findViewById(R.id.eventTime);
-        eventSize      = (TextView)  findViewById(R.id.eventSize);
-
+        getUIComponents();
 
         /* Get user data for the logged in user */
         mUserLocalStore = new UserLocalStore(this);
@@ -88,53 +72,9 @@ public class ChooseEventsActivity extends AppCompatActivity {
         if ( !EventDeck.get().getDeck().isEmpty() ) {
             currentEvent = EventDeck.get().getNewEvent();
 
-//            final ServerRequests serverRequests = new ServerRequests(this);
-
-
-            /* param not currently being used */
-//            serverRequests.fetchImageUrlsInBackground("swingdance", new GetImageURLSCallback() {
-//                @Override
-//                public void done(JSONArray returnedUrls) {
-//                    String imageUrl = null;
-//                    try {
-//                        JSONObject returnedUrl = (JSONObject) returnedUrls.get(new Random().nextInt(returnedUrls.length()));
-//
-//                        String farmId = returnedUrl.getInt("farm") + "";
-//                        String serverId = returnedUrl.getString("server");
-//                        String id = returnedUrl.getString("id");
-//                        String secret = returnedUrl.getString("secret");
-//                        String size = "n";
-//
-//                        imageUrl = "https://farm" + farmId + ".staticflickr.com/" + serverId + "/" + id + "_" + secret + "_" + size + ".jpg";
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    serverRequests.fetchImageInBackground(imageUrl, new GetImageCallback() {
-//                        @Override
-//                        public void done(Bitmap returnedImage) {
-//                            eventBanner.setImageBitmap(returnedImage);
-//
-//                            Toast toast = Toast.makeText(context, "Image loaded", duration);
-//                            toast.show();
-//                        }
-//                    });
-//
-//
-//                }
-//            });
-
-            eventAddress.setText( currentEvent.street );
-            eventCityState.setText( currentEvent.getCityState() );
-            eventPrice.setText( currentEvent.getPrice() );
-            eventTitle.setText( currentEvent.title );
-            eventAbout.setText( currentEvent.about );
-            eventDate.setText( currentEvent.getEventStartDate() );
-            eventTime.setText( currentEvent.getEventStartTimeToEndTime() );
-            eventSize.setText( currentEvent.eventSize + "" );
+            updateEventUI(currentEvent);
         } else {
-            eventTitle.setText(R.string.deck_empty_message);
+            setEmptyDeck();
         }
 
     }

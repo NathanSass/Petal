@@ -4,12 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nathansass.petal.R;
@@ -18,10 +16,11 @@ import com.nathansass.petal.data.UserLocalStore;
 import com.nathansass.petal.interfaces.PutEventAttendingCallback;
 import com.nathansass.petal.models.EventCard;
 import com.nathansass.petal.models.EventDeck;
+import com.nathansass.petal.models.EventDisplayer;
 import com.nathansass.petal.models.LikedDeck;
 import com.nathansass.petal.models.User;
 
-public class EventDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+public class EventDetailsActivity extends EventDisplayer implements View.OnClickListener {
     public static final String TAG = EventDetailsActivity.class.getSimpleName();
     Context context;
     int duration;
@@ -59,6 +58,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         duration = Toast.LENGTH_SHORT;
 
         /* Find things */
+        getUIComponents();
         bDeleteEvent = (Button) findViewById(R.id.deleteEventButton);
         bAttendEvent = (Button) findViewById(R.id.attendEventButton);
 
@@ -68,12 +68,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
         /* Do things */
         currentEventCard = LikedDeck.get().getDeck().get(position);
-        updateEventCardUI();
-    }
+        updateEventUI(currentEventCard);
 
-    public void updateEventCardUI() {
-        TextView eventTitle = (TextView) findViewById(R.id.eventTitle);
-        eventTitle.setText(currentEventCard.title);
     }
 
     @Override
